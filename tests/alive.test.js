@@ -3,7 +3,7 @@
 const request = require('supertest');
 const app = require('../app');
 
-describe('GET /api/cities/test', () => {
+describe('General server tests', () => {
   it('should respond with \"Success\"', async () => {
     const response = await request(app).get('/api/cities/test');
 
