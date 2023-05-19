@@ -3,15 +3,13 @@ const cors = require("cors")
 // TODO: Delete unneeded requires
 // require('express-async-errors') // Eliminates try-catch blocks completely with the use of implied next()'s
 
-// TODO: Fix config
-// const config = require("./utils/config")
+// Import utilities
+const config = require("./utils/config")
 const logger = require("./utils/logger")
 const middleware = require('./utils/middleware')
 
-// const loginRouter = require("./controllers/login.js")
+// Import controllers
 const citiesRouter = require("./controllers/cities.js")
-
-// logger.info("Connecting to", config.MONGODB_URI)
 
 const app = express()
 
