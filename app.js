@@ -1,12 +1,26 @@
-const express = require('express')
+const express = require("express")
+const cors = require("cors")
+// TODO: Delete unneeded requires
+// require('express-async-errors') // Eliminates try-catch blocks completely with the use of implied next()'s
+
+// TODO: Fix config
+// const config = require("./utils/config")
+const logger = require("./utils/logger")
+const middleware = require('./utils/middleware')
+
+const loginRouter = require("./controllers/login.js")
+
+// logger.info("Connecting to", config.MONGODB_URI)
 
 const app = express()
-const port = 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use(cors())
+app.use(express.json())
+app.use(middleware.requestLogger)
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.use("/api/cities", citiesRouter)
+
+app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
+
+module.exports = app
