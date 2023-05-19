@@ -1,5 +1,3 @@
-// TODO: Create test case checking if the json object is returned from cities
-// Use the supertest library
 const request = require('supertest');
 const app = require('../app');
 
