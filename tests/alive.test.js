@@ -1,10 +1,10 @@
 // TODO: Create test case checking if the json object is returned from cities
 // Use the supertest library
 const request = require('supertest');
-const app = require('./app');
+const app = require('../app');
 
 describe('GET /api/cities/test', () => {
-  it('should return a JSON object', async () => {
+  it('should respond with \"Success\"', async () => {
     const response = await request(app).get('/api/cities/test');
 
     expect(response.status).toBe(200);
