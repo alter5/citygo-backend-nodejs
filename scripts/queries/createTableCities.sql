@@ -1,9 +1,8 @@
 CREATE TABLE cities(
-  id INT NOT NULL AUTO_INCREMENT,
+  id serial not null primary key,
   cityName varchar(50),
   state varchar(50),
-  population int,
-  latitude decimal(10, 6),
-  longitude decimal(10, 6),
-  PRIMARY KEY (id)
+  population integer,
+  latitude numeric(10, 6),
+  longitude numeric(10, 6),
 );

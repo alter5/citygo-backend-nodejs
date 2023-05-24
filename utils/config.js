@@ -15,7 +15,7 @@ const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD
 const DATABASE_CONFIG = {
   host: DATABASE_HOST,
   port: DATABASE_PORT,
-  database: DATABASE_NAME,
+  // database: DATABASE_NAME,
   user: DATABASE_USER,
   password: DATABASE_PASSWORD,
   sslmode: "prefer",
@@ -24,5 +24,8 @@ const DATABASE_CONFIG = {
 
 module.exports = {
   PORT,
-  DATABASE_CONFIG
+  DATABASE_CONFIG,
+  DATABASE_USER,
+  DATABASE_PASSWORD,
+  DATABASE_NAME
 }
