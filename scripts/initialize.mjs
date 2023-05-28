@@ -1,11 +1,13 @@
-import * as pg from "pg"
+import pgPromise from "pg-promise"
 import config from "../utils/config.js"
 import * as fs from "fs"
+import * as path from "path"
 
-const dbConfig = config.DATABASE_CONFIG
-console.log("🚀 ~ file: initialize.mjs:6 ~ dbConfig:", dbConfig)
+let dbConfig = config.DATABASE_CONFIG
 
-const dbClient = new pg.Client(dbConfig)
+// Configure DB connection
+const pgp = pgPromise({})
+let dbClient = pgp(dbConfig)
 
 // Connect to Postgre DB
 try {
@@ -15,29 +17,28 @@ try {
   console.log("connection error", err.stack)
 }
 
-console.log("🚀 ~ file: initialize.mjs:15 ~ console:", console)
+let res = {}
 
-// create function to get query from file
-// await dbClient.query("CREATE USER $1 WITH SUPERUSER PASSWORD $2", config.DATABASE_USER, config.DATABASE_PASSWORD)
-await dbClient.query("DROP DATABASE IF EXISTS CityGo")
-dbClient.database = "CityGo"
+res = await dbClient.none("DROP DATABASE IF EXISTS citygo")
+res = await dbClient.none("CREATE DATABASE citygo")
 
-queryCreateTableCities = getQueryString("createTableCities")
+dbConfig = { ...dbConfig, database: "citygo"}
+dbClient = pgp(dbConfig)
 
-// dbClient.query(queryCreateTableCities, )
+console.log("🚀 ~ file: initialize.mjs:37 ~ dbClient.$cn:", dbClient.$cn)
 
-// dbClient.query("CREATE TABLE ")
+const queryCreateTableCities = getQueryString("createTableCities")
+res = await dbClient.none(queryCreateTableCities)
 
-const res = await dbClient.query("SELECT $1::text as message", ["Hello dog!"])
-console.log(res) // Hello world!
-await dbClient.end()
+// await dbClient.$pool.end
 
 function getQueryString(queryName) {
-  return fs.readFileSync("queries/" + queryName + ".sql", "utf8")
+  const queryFileDirectory = path.resolve("./scripts/queries/" + queryName + ".sql")
+  return fs.readFileSync(queryFileDirectory, "utf8")
 }
 
 function getArrayFromCsvFile(fileName) {
-  
+
 }
 
-export {}
+export { }
