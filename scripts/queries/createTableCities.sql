@@ -4,5 +4,5 @@ CREATE TABLE cities(
   state varchar(50),
   population integer,
   latitude numeric(10, 6),
-  longitude numeric(10, 6),
+  longitude numeric(10, 6)
 );
