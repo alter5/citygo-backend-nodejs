@@ -3,34 +3,34 @@ import config from "../utils/config.js"
 import * as fs from "fs"
 import * as path from "path"
 
-let dbConfig = config.DATABASE_CONFIG
+async function initialize() {
+  let dbConfig = config.DATABASE_CONFIG
 
-// Configure DB connection
-const pgp = pgPromise({})
-let dbClient = pgp(dbConfig)
+  // Configure DB connection
+  const pgp = pgPromise({})
+  let dbClient = pgp(dbConfig)
 
-// Connect to Postgre DB
-try {
-  await dbClient.connect()
-  console.log("connected")
-} catch (err) {
-  console.log("connection error", err.stack)
+  // Connect to Postgre DB
+  try {
+    await dbClient.connect()
+    console.log("connected")
+  } catch (err) {
+    console.log("connection error", err.stack)
+  }
+
+  let res = {}
+
+  res = await dbClient.none("DROP DATABASE IF EXISTS citygo")
+  res = await dbClient.none("CREATE DATABASE citygo")
+
+  dbConfig = { ...dbConfig, database: "citygo" }
+  dbClient = pgp(dbConfig)
+
+  const queryCreateTableCities = getQueryString("createTableCities")
+  res = await dbClient.none(queryCreateTableCities)
+
+  // await dbClient.$pool.end
 }
-
-let res = {}
-
-res = await dbClient.none("DROP DATABASE IF EXISTS citygo")
-res = await dbClient.none("CREATE DATABASE citygo")
-
-dbConfig = { ...dbConfig, database: "citygo"}
-dbClient = pgp(dbConfig)
-
-console.log("🚀 ~ file: initialize.mjs:37 ~ dbClient.$cn:", dbClient.$cn)
-
-const queryCreateTableCities = getQueryString("createTableCities")
-res = await dbClient.none(queryCreateTableCities)
-
-// await dbClient.$pool.end
 
 function getQueryString(queryName) {
   const queryFileDirectory = path.resolve("./scripts/queries/" + queryName + ".sql")
@@ -41,4 +41,4 @@ function getArrayFromCsvFile(fileName) {
 
 }
 
-export { }
+export default { initialize }
