@@ -1,8 +1,6 @@
-require("dotenv").config() // Variables stored in the .env file
+import * as dotenv from "dotenv" // Variables stored in the .env file
 
-// const MONGODB_URI = process.env.NODE_ENV === 'test'
-//     ? process.env.TEST_MONGODB_URI
-//     : process.env.MONGODB_URI
+dotenv.config()
 
 const PORT = process.env.PORT
 
@@ -22,7 +20,7 @@ const DATABASE_CONFIG = {
   connect_timeout: 10
 }
 
-module.exports = {
+export default {
   PORT,
   DATABASE_CONFIG,
   DATABASE_USER,

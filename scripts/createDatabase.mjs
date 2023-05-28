@@ -1,9 +1,9 @@
 import pgPromise from "pg-promise"
-import config from "../utils/config.js"
+import * as config from "../utils/config.mjs"
 import * as fs from "fs"
 import * as path from "path"
 
-async function initialize() {
+async function run() {
   let dbConfig = config.DATABASE_CONFIG
 
   // Configure DB connection
@@ -20,16 +20,18 @@ async function initialize() {
 
   let res = {}
 
-  res = await dbClient.none("DROP DATABASE IF EXISTS citygo")
-  res = await dbClient.none("CREATE DATABASE citygo")
+  // Create CityGo database
+  await dbClient.none("DROP DATABASE IF EXISTS citygo")
+  await dbClient.none("CREATE DATABASE citygo")
 
+  // Connect to new CityGo database
   dbConfig = { ...dbConfig, database: "citygo" }
   dbClient = pgp(dbConfig)
 
+  // Create cities table
   const queryCreateTableCities = getQueryString("createTableCities")
-  res = await dbClient.none(queryCreateTableCities)
+  await dbClient.none(queryCreateTableCities)
 
-  // await dbClient.$pool.end
 }
 
 function getQueryString(queryName) {
@@ -41,4 +43,4 @@ function getArrayFromCsvFile(fileName) {
 
 }
 
-export default { initialize }
+export default { run }

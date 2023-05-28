@@ -1,2 +1,2 @@
-import initiailize from "./initialize.mjs"
-initialize.initialize()
+import createDatabase from "./createDatabase.mjs"
+createDatabase.run()
