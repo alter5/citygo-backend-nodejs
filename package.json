@@ -18,6 +18,7 @@
     "pg-promise": "^11.4.3"
   },
   "devDependencies": {
+    "csv-parser": "^3.0.0",
     "jest": "^29.5.0",
     "supertest": "^6.3.3"
   }
