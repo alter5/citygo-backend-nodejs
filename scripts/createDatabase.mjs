@@ -40,7 +40,7 @@ async function run() {
 }
 
 function getQueryString(queryName) {
-  const queryFileDirectory = path.resolve("./scripts/queries/" + queryName + ".sql")
+  const queryFileDirectory = "./scripts/queries/" + queryName + ".sql"
   return fs.readFileSync(queryFileDirectory, "utf8")
 }
 
