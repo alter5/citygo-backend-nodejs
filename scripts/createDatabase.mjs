@@ -32,14 +32,14 @@ async function run() {
   dbClient = pgp(dbConfig)
 
   // Create cities table
-  const queryCreateTableCities = getQueryString("createTableCities")
+  const queryCreateTableCities = getQueryFromFile("createTableCities")
   await dbClient.none(queryCreateTableCities)
 
   // Terminate the process, since the db client continues to run in the background if not terminated
   process.exit(1)
 }
 
-function getQueryString(queryName) {
+function getQueryFromFile(queryName) {
   const queryFileDirectory = "./scripts/queries/" + queryName + ".sql"
   return fs.readFileSync(queryFileDirectory, "utf8")
 }
