@@ -40,8 +40,8 @@ async function run() {
 }
 
 function getQueryFromFile(queryName) {
-  const queryFileDirectory = "./scripts/queries/" + queryName + ".sql"
-  return fs.readFileSync(queryFileDirectory, "utf8")
+  const filePath = "./scripts/queries/" + queryName + ".sql"
+  return fs.readFileSync(filePath, "utf8")
 }
 
 // function getArrayFromCsvFile(fileName) {
