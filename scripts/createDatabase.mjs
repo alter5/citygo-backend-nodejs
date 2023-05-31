@@ -35,6 +35,9 @@ async function run() {
   const queryCreateTableCities = getQueryFromFile("createTableCities")
   await dbClient.none(queryCreateTableCities)
 
+  const cities = await getDataFromCsvFile("cities")
+  console.log("🚀 ~ file: createDatabase.mjs:39 ~ run ~ cities:", cities)
+
   // Terminate the process, since the db client continues to run in the background if not terminated
   process.exit(1)
 }
@@ -44,18 +47,29 @@ function getQueryFromFile(queryName) {
   return fs.readFileSync(filePath, "utf8")
 }
 
-// function getArrayFromCsvFile(fileName) {
-//   const result = []
-//   const filePath = path.resolve("./scripts/queries/" + queryName + ".sql")
-//   fs.createReadStream(filename)
-//     .pipe(parse({ delimiter: ',' }))
-//     .on('data', (r) => {
-//       console.log(r);
-//       result.push(r);
-//     })
-//     .on('end', () => {
-//       console.log(result);
-//     })
-// }
+async function getDataFromCsvFile(fileName) {
+  const result = []
+  const filePath = "./scripts/data/" + fileName + ".csv"
+  let triggered = false
+  await new Promise((resolve, reject) => {
+    fs.createReadStream(filePath)
+      .pipe(csvParser({ separator: ',' }))
+      .on('data', (row) => {
+        if (triggered === false) {
+          triggered = true
+          console.log("🚀 ~ file: createDatabase.mjs:56 ~ .on ~ triggered:", triggered)
+          console.log("Row:", row);
+        }
+        result.push(row);
+      })
+      .on('end', () => {
+        console.log(result);
+        resolve(result)
+      })
+      .on("error", (error) => {
+        reject("Error: " + error.message)
+      })
+  })
+}
 
 export default { run }
