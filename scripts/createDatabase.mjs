@@ -36,7 +36,19 @@ async function run() {
   await dbClient.none(queryCreateTableCities)
 
   const cities = await getDataFromCsvFile("cities")
-  console.log("🚀 ~ file: createDatabase.mjs:39 ~ run ~ cities:", cities)
+  // console.log("🚀 ~ file: createDatabase.mjs:39 ~ run ~ cities: ", cities)
+
+  const cs = new pgp.helpers.ColumnSet([
+    'cityName',
+    'state',
+    'population',
+    'latitude',
+    'longitude'
+  ], { table: 'cities' })
+
+  const insert = pgp.helpers.insert(cities, cs)
+
+  await dbClient.none(insert)
 
   // Terminate the process, since the db client continues to run in the background if not terminated
   process.exit(1)
@@ -51,7 +63,7 @@ async function getDataFromCsvFile(fileName) {
   const result = []
   const filePath = "./scripts/data/" + fileName + ".csv"
   let triggered = false
-  await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
       .pipe(csvParser({ separator: ',' }))
       .on('data', (row) => {
@@ -63,7 +75,6 @@ async function getDataFromCsvFile(fileName) {
         result.push(row);
       })
       .on('end', () => {
-        console.log(result);
         resolve(result)
       })
       .on("error", (error) => {
