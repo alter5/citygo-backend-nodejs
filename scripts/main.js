@@ -1,2 +1,2 @@
-import createDatabase from "./createDatabase.mjs"
+import createDatabase from "./createDatabase.js"
 createDatabase.run()
