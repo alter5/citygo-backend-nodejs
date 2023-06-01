@@ -50,6 +50,8 @@ async function run() {
 
   await dbClient.none(insert)
 
+  
+
   // Terminate the process, since the db client continues to run in the background if not terminated
   process.exit(1)
 }
@@ -67,11 +69,6 @@ async function getDataFromCsvFile(fileName) {
     fs.createReadStream(filePath)
       .pipe(csvParser({ separator: ',' }))
       .on('data', (row) => {
-        if (triggered === false) {
-          triggered = true
-          console.log("🚀 ~ file: createDatabase.mjs:56 ~ .on ~ triggered:", triggered)
-          console.log("Row:", row);
-        }
         result.push(row);
       })
       .on('end', () => {

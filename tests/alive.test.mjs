@@ -1,5 +1,5 @@
-const request = require('supertest');
-const app = require('../app');
+import request from "supertest"
+import app from "../app"
 
 describe('General server tests', () => {
   it('should respond with \"Success\"', async () => {
