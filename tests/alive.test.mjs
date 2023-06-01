@@ -1,5 +1,5 @@
 import request from "supertest"
-import app from "../app"
+import app from "../app.ts/index.js"
 
 describe('General server tests', () => {
   it('should respond with \"Success\"', async () => {

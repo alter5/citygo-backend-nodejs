@@ -1,4 +1,4 @@
-const app = require("./app")
+import app from "./app"
 const http = require("http")
 const config = require("./utils/config")
 const logger = require("./utils/logger")
