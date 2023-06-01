@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv" // Variables stored in the .env file
+const dotenv = require("dotenv") // Variables stored in the .env file
 
 dotenv.config()
 
@@ -20,7 +20,7 @@ const DATABASE_CONFIG = {
   connect_timeout: 10
 }
 
-export default {
+module.exports = {
   PORT,
   DATABASE_CONFIG,
   DATABASE_USER,

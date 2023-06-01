@@ -1,2 +1,2 @@
-import createDatabase from "./createDatabase.js"
+const createDatabase = require("./createDatabase.js")
 createDatabase.run()

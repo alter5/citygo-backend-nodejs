@@ -1,8 +1,8 @@
-import pgPromise from "pg-promise"
-import config from "../utils/config.mjs"
-import csvParser from "csv-parser"
-import * as fs from "fs"
-import * as path from "path"
+const pgPromise = require("pg-promise")
+const config = require("../utils/config.js")
+const csvParser = require("csv-parser")
+const fs = require("fs")
+const path = require("path")
 
 async function run() {
   let dbConfig = config.DATABASE_CONFIG
@@ -77,4 +77,4 @@ async function getDataFromCsvFile(fileName) {
   })
 }
 
-export default { run }
+module.exports = { run }
