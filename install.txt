@@ -1,3 +1,0 @@
-npm uninstall pg-promise dotenv typescript
-npm install pg-promise dotenv
-npm install --save-dev typescript
