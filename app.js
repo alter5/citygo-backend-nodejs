@@ -4,9 +4,7 @@ const cors = require("cors")
 // require('express-async-errors') // Eliminates try-catch blocks completely with the use of implied next()'s
 
 // Import utilities
-const config = require("./utils/config")
-const logger = require("./utils/logger")
-const middleware = require('./utils/middleware')
+const middleware = require("./utils/middleware")
 
 // Import controllers
 const citiesRouter = require("./controllers/cities.js")

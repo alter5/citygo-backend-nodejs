@@ -2,10 +2,9 @@ const pgPromise = require("pg-promise")
 const config = require("../utils/config.js")
 const csvParser = require("csv-parser")
 const fs = require("fs")
-const path = require("path")
 
 async function run() {
-  let dbConfig = config.DATABASE_CONFIG
+  let dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
 
   // Configure DB connection
   const pgp = pgPromise({})
@@ -37,13 +36,10 @@ async function run() {
 
   const cities = await getDataFromCsvFile("cities")
 
-  const cs = new pgp.helpers.ColumnSet([
-    'cityName',
-    'state',
-    'population',
-    'latitude',
-    'longitude'
-  ], { table: 'cities' })
+  const cs = new pgp.helpers.ColumnSet(
+    ["cityName", "state", "population", "latitude", "longitude"],
+    { table: "cities" }
+  )
 
   const insert = pgp.helpers.insert(cities, cs)
 
@@ -64,11 +60,11 @@ async function getDataFromCsvFile(fileName) {
   let triggered = false
   return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
-      .pipe(csvParser({ separator: ',' }))
-      .on('data', (row) => {
-        result.push(row);
+      .pipe(csvParser({ separator: "," }))
+      .on("data", (row) => {
+        result.push(row)
       })
-      .on('end', () => {
+      .on("end", () => {
         resolve(result)
       })
       .on("error", (error) => {

@@ -30,6 +30,4 @@ order by usename;
 `)
 console.log("🚀 ~ file: playground.mjs:31 ~ res:", res)
 
-
-
 export {}
