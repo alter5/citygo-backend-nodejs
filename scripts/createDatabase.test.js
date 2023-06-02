@@ -1,12 +1,27 @@
-import { signuptests } from './signup'
-
+const createDatabase = require("./createDatabase")
 const dbClient = require("../utils/dbClient")
+const queries = require("../controllers/queries")
 
 beforeAll(() => {
-  dbClient.$pool.end
+  // Note: crossenv is being used to change the database utilized during testing
+  createDatabase.run()
 })
 
-test.concurrent("Controller ")
+describe("Script createDatabase.js", () => {
+  it("should create database test_city_go", async () => {
+    let isConnectedSuccessfully = false
+    try {
+      isConnectedSuccessfully = await dbClient.connect()
+      console.log(
+        "🚀 ~ file: createDatabase.test.js:15 ~ it ~ connectionResponse:",
+        connectionResponse
+      )
+      console.log("Connected")
+    } catch (err) {
+      isConnectedSuccessfully = false
+      console.log("Connection error", err.stack)
+    }
 
-describe('Signup', signuptests)
-describe('Login', logintests)
+    expect(isConnectedSuccessfully).toBe(true)
+  })
+})

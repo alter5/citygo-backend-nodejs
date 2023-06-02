@@ -20,7 +20,7 @@ async function run() {
 
   let res = {}
 
-  const databaseName = "city_go"
+  const databaseName = config.DATABASE_CONFIG.database
 
   // Create CityGo database
   await dbClient.none("DROP DATABASE IF EXISTS $1~", [databaseName])
