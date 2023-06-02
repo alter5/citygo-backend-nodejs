@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon -L index.js",
-    "test": "jest --silent"
+    "test": "cross-env NODE_ENV=test jest"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 const createDatabase = require("./createDatabase")
 const dbClient = require("../utils/dbClient")
-const queries = require("../controllers/queries")
+const queries = require("../utils/queries")
 
 beforeAll(() => {
   // Note: crossenv is being used to change the database utilized during testing

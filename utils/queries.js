@@ -1,4 +1,4 @@
-const dbClient = require("../utils/dbClient")
+const dbClient = require("./dbClient")
 
 const searchForCities = async (queryString) => {
   const sql = `
