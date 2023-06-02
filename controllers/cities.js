@@ -10,7 +10,7 @@ citiesRouter.get("/test", async (request, response) => {
 
 citiesRouter.get("/search", async (request, response) => {
   const queryString = request.query.queryString
-  const result = await queries.searchForCity(queryString)
+  const result = await queries.searchForCities(queryString)
   response.json(result)
 })
 

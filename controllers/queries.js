@@ -1,13 +1,14 @@
 const dbClient = require("../utils/dbClient")
 
-const searchForCity = async (queryString) => {
+const searchForCities = async (queryString) => {
   const sql = `
   SELECT city_name FROM cities
   WHERE city_name like $1
   `
   const response = {}
   try {
-    const cities = await dbClient.any(sql, [`%${queryString}%`])
+    const _cities = await dbClient.any(sql, [`%${queryString}%`])
+    const cities = _cities.map((row) => row.city_name)
     response.result = cities
   } catch (error) {
     response.error = error
@@ -15,4 +16,4 @@ const searchForCity = async (queryString) => {
   return response
 }
 
-module.exports = { searchForCity }
+module.exports = { searchForCities }

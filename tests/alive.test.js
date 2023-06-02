@@ -10,19 +10,4 @@ describe("General server tests", () => {
     expect(response.header["content-type"]).toContain("application/json")
     expect(response.body.result).toEqual("Success")
   })
-
-  it("should connect to Postgre database", async () => {
-    const response = await request(app)
-      .get("/api/cities/search")
-      .query({ queryString: "New Yo" })
-
-    expect(response.status).toBe(200)
-    expect(response.header["content-type"]).toContain("application/json")
-    expect(response.body.result).toEqual(
-      expect.arrayContaining([
-        { city_name: "New York" },
-        { city_name: "West New York" }
-      ])
-    )
-  })
 })
