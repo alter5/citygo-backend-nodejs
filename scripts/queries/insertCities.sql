@@ -1,5 +1,5 @@
-INSERT INTO CITIES (
-    cityName,
+INSERT INTO cities (
+    city_name,
     state,
     population,
     latitude,

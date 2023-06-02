@@ -20,7 +20,7 @@ async function run() {
 
   let res = {}
 
-  const databaseName = "CityGo"
+  const databaseName = "city_go"
 
   // Create CityGo database
   await dbClient.none("DROP DATABASE IF EXISTS $1~", [databaseName])
@@ -37,7 +37,7 @@ async function run() {
   const cities = await getDataFromCsvFile("cities")
 
   const cs = new pgp.helpers.ColumnSet(
-    ["cityName", "state", "population", "latitude", "longitude"],
+    ["city_name", "state", "population", "latitude", "longitude"],
     { table: "cities" }
   )
 
