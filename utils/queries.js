@@ -1,4 +1,5 @@
 const dbClient = require("./dbClient")
+const config = require("./config")
 
 const searchForCities = async (queryString) => {
   const sql = `
@@ -16,4 +17,23 @@ const searchForCities = async (queryString) => {
   return response
 }
 
-module.exports = { searchForCities }
+const dropDatabase = async () => {
+  changeToDefaultDatabase()
+
+  const databaseName = config.DATABASE_CONFIG.database
+  await dbClient.none("DROP DATABASE $1~", [databaseName])
+
+  changeToEnvironmentDatabase()
+}
+
+const changeToDefaultDatabase = async () => {
+  const defaultDatabase = "postgres"
+  dbClient.$cn.database = defaultDatabase
+}
+
+const changeToEnvironmentDatabase = () => {
+  const environmentDatabase = config.DATABASE_CONFIG.database
+  dbClient.$cn.database = environmentDatabase
+}
+
+module.exports = { searchForCities, dropDatabase }
