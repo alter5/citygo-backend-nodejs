@@ -1,4 +1,4 @@
-const dbClient = require("./dbClient")
+const { pgp, dbClient } = require("./dbClient")
 const config = require("./config")
 
 const searchForCities = async (queryString) => {
@@ -18,22 +18,25 @@ const searchForCities = async (queryString) => {
 }
 
 const dropDatabase = async () => {
-  changeToDefaultDatabase()
+  // Shut down all connection pools before dropping the database
+  // Note: the dbClient.js module will no longer work, since all pools are destroyed
+  pgp.end()
+
+  // Switch to the default/postgres database to prevent errors when dropping the city_go database
+  const dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
+  const dbClientPostgres = pgp(dbConfig)
 
   const databaseName = config.DATABASE_CONFIG.database
-  await dbClient.none("DROP DATABASE $1~", [databaseName])
 
-  changeToEnvironmentDatabase()
-}
+  try {
+    await dbClientPostgres.none("DROP DATABASE $1~", [databaseName])
+  } catch (error) {
+    console.log("Error: ", error)
+  }
 
-const changeToDefaultDatabase = async () => {
-  const defaultDatabase = "postgres"
-  dbClient.$cn.database = defaultDatabase
-}
-
-const changeToEnvironmentDatabase = () => {
-  const environmentDatabase = config.DATABASE_CONFIG.database
-  dbClient.$cn.database = environmentDatabase
+  // Open connection pools prevent the current process from terminating
+  // So, shut down all connection pools so that the process can finish
+  pgp.end()
 }
 
 module.exports = { searchForCities, dropDatabase }

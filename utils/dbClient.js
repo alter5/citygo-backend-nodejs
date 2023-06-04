@@ -7,4 +7,4 @@ const dbConfig = config.DATABASE_CONFIG
 const pgp = pgPromise({})
 const dbClient = pgp(dbConfig)
 
-module.exports = dbClient
+module.exports = { pgp, dbClient }

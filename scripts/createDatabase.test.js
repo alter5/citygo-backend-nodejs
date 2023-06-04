@@ -1,5 +1,5 @@
 const createDatabase = require("./createDatabase")
-const dbClient = require("../utils/dbClient")
+const { dbClient } = require("../utils/dbClient")
 const queries = require("../utils/queries")
 
 const run = async () => {
@@ -7,7 +7,7 @@ const run = async () => {
     it("should be able to connect to database test_city_go", async () => {
       let isConnectedSuccessfully = false
       try {
-        (await dbClient.connect()).done()
+        ;(await dbClient.connect()).done()
         isConnectedSuccessfully = true
       } catch (err) {
         isConnectedSuccessfully = false
@@ -17,8 +17,6 @@ const run = async () => {
       expect(isConnectedSuccessfully).toBe(true)
     })
   })
-
-  
 }
 
 module.exports = { run }

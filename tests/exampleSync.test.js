@@ -1,4 +1,4 @@
-const dbClient = require("../utils/dbClient")
+const { pgp, dbClient } = require("../utils/dbClient")
 const config = require("../utils/config")
 const queries = require("../utils/queries")
 
@@ -9,16 +9,11 @@ const citiesTests = require("../controllers/cities.test")
 const queriesTests = require("../utils/queries.test")
 
 beforeAll(() => {
-  // Disconnects the database after test cases are complete
-  // dbClient.$cn.allowExitOnIdle
 })
 
 afterAll(async () => {
   // Drop the test database
   await queries.dropDatabase()
-
-  // Disconnect from database after completing all test cases
-  await dbClient.$pool.end()
 })
 
 // Tests are executed in the order they are defined in the file
