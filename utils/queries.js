@@ -28,11 +28,7 @@ const dropDatabase = async () => {
 
   const databaseName = config.DATABASE_CONFIG.database
 
-  try {
     await dbClientPostgres.none("DROP DATABASE $1~", [databaseName])
-  } catch (error) {
-    console.log("Error: ", error)
-  }
 
   // Open connection pools prevent the current process from terminating
   // So, shut down all connection pools so that the process can finish

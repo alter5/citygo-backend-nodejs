@@ -10,10 +10,11 @@ async function run() {
   const pgp = pgPromise({})
   let dbClient = pgp(dbConfig)
 
-  // Connect to Postgre DB
+  // Test connection to the database
   try {
-    await dbClient.connect()
+    const connection = await dbClient.connect()
     console.log("Connected")
+    connection.done()
   } catch (err) {
     console.log("Connection error", err.stack)
   }
@@ -46,7 +47,6 @@ async function run() {
   await dbClient.none(insert)
 
   // Terminate the process, since the db client continues to run in the background if not terminated
-  process.exit(1)
 }
 
 function getQueryFromFile(queryName) {

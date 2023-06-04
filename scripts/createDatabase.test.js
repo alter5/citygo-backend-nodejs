@@ -7,14 +7,23 @@ const run = async () => {
     it("should be able to connect to database test_city_go", async () => {
       let isConnectedSuccessfully = false
       try {
-        ;(await dbClient.connect()).done()
+        const connection = await dbClient.connect()
+        connection.done()
         isConnectedSuccessfully = true
       } catch (err) {
         isConnectedSuccessfully = false
         console.log("Connection error", err.stack)
-        isConnectedSuccessfully = false
       }
       expect(isConnectedSuccessfully).toBe(true)
+    })
+
+    it("should contain rows in cities table", async () => {
+      const cityName = "New York"
+      const row = await dbClient.one(
+        "SELECT * FROM cities WHERE city_name = $1",
+        [cityName]
+      )
+      expect(row.city_name).toEqual(cityName)
     })
   })
 }

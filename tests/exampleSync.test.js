@@ -1,6 +1,7 @@
 const { pgp, dbClient } = require("../utils/dbClient")
 const config = require("../utils/config")
 const queries = require("../utils/queries")
+const createDatabase = require("../scripts/createDatabase")
 
 // Import controller tests
 // TODO: Add module.exports to test files
@@ -8,7 +9,8 @@ const createDatabaseTests = require("../scripts/createDatabase.test")
 const citiesTests = require("../controllers/cities.test")
 const queriesTests = require("../utils/queries.test")
 
-beforeAll(() => {
+beforeAll(async () => {
+  await createDatabase.run()
 })
 
 afterAll(async () => {
