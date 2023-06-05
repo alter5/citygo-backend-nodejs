@@ -1,7 +1,5 @@
-const { pgp, dbClient } = require("../utils/dbClient")
-const config = require("../utils/config")
-const queries = require("../utils/queries")
-const createDatabase = require("../scripts/createDatabase")
+const createDatabaseScript = require("../scripts/createDatabase")
+const dropDatabaseScript = require("../scripts/dropDatabase")
 
 // Import controller tests
 // TODO: Add module.exports to test files
@@ -10,12 +8,12 @@ const citiesTests = require("../controllers/cities.test")
 const queriesTests = require("../utils/queries.test")
 
 beforeAll(async () => {
-  await createDatabase.run()
+  await createDatabaseScript.run()
 })
 
 afterAll(async () => {
   // Drop the test database
-  await queries.dropDatabase()
+  await dropDatabaseScript.run()
 })
 
 // Tests are executed in the order they are defined in the file

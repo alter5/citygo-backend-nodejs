@@ -1,5 +1,5 @@
 const createDatabase = require("./createDatabase")
-const { dbClient } = require("../utils/dbClient")
+const dbClient = require("../utils/dbClient")
 const queries = require("../utils/queries")
 
 const run = async () => {

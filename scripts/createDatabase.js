@@ -3,7 +3,7 @@ const config = require("../utils/config.js")
 const csvParser = require("csv-parser")
 const fs = require("fs")
 
-async function run() {
+const run = async () => {
   let dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
 
   // Configure DB connection
@@ -11,50 +11,33 @@ async function run() {
   let dbClient = pgp(dbConfig)
 
   // Test connection to the database
-  try {
-    const connection = await dbClient.connect()
-    console.log("Connected")
-    connection.done()
-  } catch (err) {
-    console.log("Connection error", err.stack)
-  }
+  await testConnection(dbClient)
 
-  let res = {}
+  // Create the city_go and dummy databases
+  await createDatabases(dbClient)
 
+  // Close the pool, since we will be connecting to a different database
+  await dbClient.$pool.end()
+
+  // Connect to newly created CityGo database
   const databaseName = config.DATABASE_CONFIG.database
-
-  // Create CityGo database
-  await dbClient.none("DROP DATABASE IF EXISTS $1~", [databaseName])
-  await dbClient.none("CREATE DATABASE $1~", [databaseName])
-
-  // Connect to new CityGo database
   dbConfig = { ...dbConfig, database: databaseName }
   dbClient = pgp(dbConfig)
 
   // Create cities table
-  const queryCreateTableCities = getQueryFromFile("createTableCities")
-  await dbClient.none(queryCreateTableCities)
+  await dbClient.none(getQueryFromFile("createTableCities"))
+  await insertCitiesIntoCitiesTable(dbClient)
 
-  const cities = await getDataFromCsvFile("cities")
-
-  const cs = new pgp.helpers.ColumnSet(
-    ["city_name", "state", "population", "latitude", "longitude"],
-    { table: "cities" }
-  )
-
-  const insert = pgp.helpers.insert(cities, cs)
-
-  await dbClient.none(insert)
-
-  // Terminate the process, since the db client continues to run in the background if not terminated
+  // Close the unneeded pool
+  await dbClient.$pool.end()
 }
 
-function getQueryFromFile(queryName) {
+const getQueryFromFile = (queryName) => {
   const filePath = "./scripts/queries/" + queryName + ".sql"
   return fs.readFileSync(filePath, "utf8")
 }
 
-async function getDataFromCsvFile(fileName) {
+const getDataFromCsvFile = async (fileName) => {
   const result = []
   const filePath = "./scripts/data/" + fileName + ".csv"
   let triggered = false
@@ -71,6 +54,43 @@ async function getDataFromCsvFile(fileName) {
         reject("Error: " + error.message)
       })
   })
+}
+
+const testConnection = async (dbClient) => {
+  try {
+    const connection = await dbClient.connect()
+    console.log("Connected")
+    connection.done()
+  } catch (err) {
+    console.log("Connection error", err.stack)
+  }
+}
+
+const createDatabases = async (dbClient) => {
+  // Create dummy database
+  // Useful for executing queries when the main database does not exist, or is dropped
+  const dummyDatabaseName = "dummy"
+  await dbClient.none("DROP DATABASE IF EXISTS $1~", [dummyDatabaseName])
+  await dbClient.none("CREATE DATABASE $1~", [dummyDatabaseName])
+
+  // Create CityGo database
+  const databaseName = config.DATABASE_CONFIG.database
+  await dbClient.none("DROP DATABASE IF EXISTS $1~", [databaseName])
+  await dbClient.none("CREATE DATABASE $1~", [databaseName])
+}
+
+const insertCitiesIntoCitiesTable = async (dbClient) => {
+  const pgp = dbClient.$config.pgp
+
+  const cities = await getDataFromCsvFile("cities")
+  const cs = new pgp.helpers.ColumnSet(
+    ["city_name", "state", "population", "latitude", "longitude"],
+    { table: "cities" }
+  )
+
+  const insert = pgp.helpers.insert(cities, cs)
+
+  await dbClient.none(insert)
 }
 
 module.exports = { run }
