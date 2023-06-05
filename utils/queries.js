@@ -18,8 +18,9 @@ const searchForCities = async (queryString) => {
 }
 
 const dropDatabase = async () => {
+  // Note: The dbClient.js module will no longer work, since all connection pools will be destroyed
+
   // Shut down all connection pools before dropping the database
-  // Note: the dbClient.js module will no longer work, since all pools are destroyed
   pgp.end()
 
   // Switch to the default/postgres database to prevent errors when dropping the city_go database
@@ -28,10 +29,10 @@ const dropDatabase = async () => {
 
   const databaseName = config.DATABASE_CONFIG.database
 
-    await dbClientPostgres.none("DROP DATABASE $1~", [databaseName])
+  await dbClientPostgres.none("DROP DATABASE $1~", [databaseName])
 
   // Open connection pools prevent the current process from terminating
-  // So, shut down all connection pools so that the process can finish
+  // So, the connection pools should be shutdown so that the process can finish
   pgp.end()
 }
 
