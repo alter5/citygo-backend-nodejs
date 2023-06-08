@@ -1,6 +1,6 @@
 /**
- * This test module checks if the server functions correctly during its entire lifecycle.
- * It creates the database environment, and then tests
+ * This test script checks if the server functions correctly during its entire lifecycle.
+ * It tests the creation of the database environment, as well as the functionality of utility and controller modules
  */
 
 const serverHealthTests = require("./serverHealthTests.test")
