@@ -4,7 +4,7 @@ const queries = require("../utils/queries")
 
 const run = async () => {
   describe("Script createDatabase.js", () => {
-    it("should be able to connect to database test_city_go", async () => {
+    it("connection to the database test_city_go is successful", async () => {
       let isConnectedSuccessfully = false
       try {
         const connection = await dbClient.connect()
@@ -17,7 +17,7 @@ const run = async () => {
       expect(isConnectedSuccessfully).toBe(true)
     })
 
-    it("should contain rows in cities table", async () => {
+    it("should have inserted rows into the cities table", async () => {
       const cityName = "New York"
       const row = await dbClient.one(
         "SELECT * FROM cities WHERE city_name = $1",
