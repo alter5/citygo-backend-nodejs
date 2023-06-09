@@ -5,19 +5,22 @@ const config = require("../utils/config")
 
 const run = async () => {
   describe("Script createDatabase.js", () => {
-    it("connection to the database is successful", async () => {
-      // Do this: SELECT datname FROM pg_catalog.pg_database WHERE datname='$database
-      let isConnectedSuccessfully = false
-      try {
-        const connection = await dbClient.connect()
-        connection.done()
-        isConnectedSuccessfully = true
-      } catch (err) {
-        isConnectedSuccessfully = false
-        console.log("Connection error", err.stack)
+    const databaseName = config.DATABASE_CONFIG.database
+    it(
+      "connection to the database " + databaseName + " is successful",
+      async () => {
+        let isConnectedSuccessfully = false
+        try {
+          const connection = await dbClient.connect()
+          connection.done()
+          isConnectedSuccessfully = true
+        } catch (err) {
+          isConnectedSuccessfully = false
+          console.log("Connection error", err.stack)
+        }
+        expect(isConnectedSuccessfully).toBe(true)
       }
-      expect(isConnectedSuccessfully).toBe(true)
-    })
+    )
 
     it("should have inserted rows into the cities table", async () => {
       const cityName = "New York"
