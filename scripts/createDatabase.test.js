@@ -1,10 +1,12 @@
 const createDatabase = require("./createDatabase")
 const dbClient = require("../utils/dbClient")
 const queries = require("../utils/queries")
+const config = require("../utils/config")
 
 const run = async () => {
   describe("Script createDatabase.js", () => {
-    it("connection to the database test_city_go is successful", async () => {
+    it("connection to the database is successful", async () => {
+      // Do this: SELECT datname FROM pg_catalog.pg_database WHERE datname='$database
       let isConnectedSuccessfully = false
       try {
         const connection = await dbClient.connect()
