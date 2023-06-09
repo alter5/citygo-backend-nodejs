@@ -2,6 +2,7 @@ const serverHealthTests = require("./serverHealthTests.test")
 const dbClient = require("../utils/dbClient")
 
 afterAll(() => {
+  // Close all connections so that the process can terminate
   disconnectFromDatabase()
 })
 
