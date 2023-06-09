@@ -7,18 +7,10 @@ const run = async () => {
   describe("Script createDatabase.js", () => {
     it("connection to the database is successful", async () => {
       // Do this: SELECT datname FROM pg_catalog.pg_database WHERE datname='$database
-      console.log("DB Config: ", config.DATABASE_CONFIG)
-      console.log("test value", process.env.NODE_ENV)
-      const databaseName = 
       let isConnectedSuccessfully = false
       try {
-        const row = dbClient.one("SELECT datname FROM pg_catalog.pg_database WHERE datname = $1", [config.DATABASE_CONFIG.database])
-        const databaseName = row.datname
-        if (databaseName === )
-      }
-      try {
         const connection = await dbClient.connect()
-        await connection.done()
+        connection.done()
         isConnectedSuccessfully = true
       } catch (err) {
         isConnectedSuccessfully = false
