@@ -2,9 +2,9 @@ const dotenv = require("dotenv") // Variables stored in the .env file
 
 dotenv.config()
 
-const isTestingModeEnabled = (process.env.NODE_ENV === "test")
+const IS_TESTING_MODE_ENABLED = (process.env.NODE_ENV === "test")
 let testPrefixString = ""
-if (isTestingModeEnabled) {
+if (IS_TESTING_MODE_ENABLED) {
   testPrefixString = "test_"
 }
 
@@ -27,6 +27,7 @@ const DATABASE_CONFIG = {
 }
 
 module.exports = {
+  IS_TESTING_MODE_ENABLED,
   PORT,
   DATABASE_CONFIG
 }
