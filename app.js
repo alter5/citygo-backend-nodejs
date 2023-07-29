@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 // TODO: Delete unneeded requires
-// require('express-async-errors') // Eliminates try-catch blocks completely with the use of implied next()'s
+require('express-async-errors') // Calls next(err) automatically for async errors
 
 // Import utilities
 const middleware = require("./utils/middleware")
