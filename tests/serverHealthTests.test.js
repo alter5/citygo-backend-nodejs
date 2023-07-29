@@ -2,6 +2,7 @@
 const createDatabaseTests = require("../scripts/createDatabase.test")
 const citiesTests = require("../controllers/cities.test")
 const queriesTests = require("../utils/queries.test")
+const errorHandlerTests = require("../utils/middleware.test")
 
 const run = () => {
   // Tests are executed in the order they are defined in the file
@@ -22,6 +23,7 @@ const run = () => {
   // Utility tests
   describe("Utilities", () => {
     queriesTests.run()
+    errorHandlerTests.run()
   })
 }
 
