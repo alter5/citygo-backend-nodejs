@@ -15,16 +15,17 @@ const unknownEndpoint = (request, response) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-  const errorMessage = "An unhandled error has occurred: \n" + error.stack
-  logger.error(errorMessage)
+  let errorMessage = ""
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" })
-  } else if (error.name === "ValidationError") {
-    return response.status(400).json({ error: error.message })
-  } else {
-    return response.status(error.status || 500).send({ error: errorMessage })
-  }
+  const errorIntro = "An unhandled error has occurred:"
+  const errorTitle = error.message || "No error title was specified"
+  const errorStack = error.stack
+
+  errorMessage = errorIntro + "\n" + errorTitle + "\n" + errorStack
+
+  logger.error(errorMessage)
+  return response.status(error.status || 500).send({ error: errorMessage })
+
   // Alternatively, you can use next() to use Express's built-in error handler.
   // This built-in handler is added to the end of the middleware function stack, and can be triggered by calling next(error)
 }
