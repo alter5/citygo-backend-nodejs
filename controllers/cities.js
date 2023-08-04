@@ -14,7 +14,7 @@ citiesRouter.get("/test", async (request, response) => {
 })
 
 citiesRouter.get("/error", async (request, response, next) => {
-  throw Error("An error has occurred in the cities controller module")
+  throw new Error()
 })
 
 module.exports = citiesRouter
