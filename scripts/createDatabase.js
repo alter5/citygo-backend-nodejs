@@ -13,7 +13,7 @@ const run = async () => {
 
   // Test connection to the database
   if (!(await isDbConnectionSuccessful(dbClient))) {
-    return
+    throw Error("Database connection was unsuccessful")
   }
 
   // Create the city_go and dummy databases
