@@ -2,6 +2,7 @@ const pgPromise = require("pg-promise")
 const config = require("../utils/config.js")
 const csvParser = require("csv-parser")
 const fs = require("fs")
+const logger = require("../utils/logger.js")
 
 const run = async () => {
   let dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
@@ -61,11 +62,11 @@ const getDataFromCsvFile = async (fileName) => {
 const isDbConnectionSuccessful = async (dbClient) => {
   try {
     const connection = await dbClient.connect()
-    console.log("Connected")
+    logger.info("Connected")
     connection.done()
     return true
   } catch (err) {
-    console.log("Connection error", err.stack)
+    logger.error("Connection error", err.stack)
     return false
   }
 }

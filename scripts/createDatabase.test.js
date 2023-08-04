@@ -3,6 +3,8 @@ const dbClient = require("../utils/dbClient")
 const queries = require("../utils/queries")
 const config = require("../utils/config")
 
+const logger = require("../utils/logger")
+
 const run = async () => {
   describe("Script createDatabase.js", () => {
     const databaseName = config.DATABASE_CONFIG.database
@@ -16,7 +18,7 @@ const run = async () => {
           isConnectedSuccessfully = true
         } catch (err) {
           isConnectedSuccessfully = false
-          console.log("Connection error", err.stack)
+          logger.error("Connection error:", err.stack)
         }
         expect(isConnectedSuccessfully).toBe(true)
       }
