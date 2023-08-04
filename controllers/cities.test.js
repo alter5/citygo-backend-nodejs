@@ -6,10 +6,20 @@ jest.mock("../utils/queries")
 
 const run = () => {
   describe("Controller cities.js", () => {
-    it("should return cities from the queries utility module", async () => {
-      const expectedResponse = { result: ["New York", "West New York"] }
+    afterAll(() => {
+      // TODO: Fix unmocking. The mock still persists!
+      jest.unmock("../utils/queries")
+      jest.resetModules()
+    })
 
-      queries.searchForCities.mockResolvedValue(expectedResponse)
+    beforeEach(() => {
+      jest.resetAllMocks()
+    })
+
+    it("should return cities from the queries utility module", async () => {
+      const mockResponse = { result: ["Manchester", "Liverpool"] }
+
+      queries.searchForCities.mockResolvedValueOnce(mockResponse)
 
       const response = await request(app)
         .get("/api/cities/search")
@@ -18,7 +28,7 @@ const run = () => {
       expect(response.status).toBe(200)
       expect(response.header["content-type"]).toContain("application/json")
       expect(response.body.result).toEqual(
-        expect.arrayContaining(expectedResponse.result)
+        expect.arrayContaining(mockResponse.result)
       )
     })
   })
