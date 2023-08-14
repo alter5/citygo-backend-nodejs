@@ -5,7 +5,9 @@
 
 const serverHealthTests = require("./serverHealthTests.test")
 const createDatabaseScript = require("../scripts/createDatabase")
-const dropDatabaseScript = require("../scripts/dropDatabase")
+const database = require("../utils/dbClient")
+
+// TODO: Replace this test script with E2E test cases. Then, allow each unit test module to execute without a test controller (i.e. delete the serverHealthTests module)
 
 beforeAll(async () => {
   // Initialize the database
@@ -14,7 +16,10 @@ beforeAll(async () => {
 
 afterAll(async () => {
   // Drop the database
-  await dropDatabaseScript.run()
+  await database.dropDatabase()
+
+  // Close all database connections. This prevents the program from hanging when exiting.
+  database.closeConnections()
 })
 
 describe("Server lifecycle tests", () => {

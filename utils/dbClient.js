@@ -1,10 +1,51 @@
 const pgPromise = require("pg-promise")
 const config = require("./config.js")
+const logger = require("../utils/logger")
 
 const dbConfig = config.DATABASE_CONFIG
 
 // Configure DB connection
 const pgp = pgPromise({})
+
+/**
+ * This database client is used to execute queries on the main database
+ */
 const dbClient = pgp(dbConfig)
 
-module.exports = dbClient
+/**
+ * This database client is connected to the "postgres" database.
+ * This client is useful when the CityGo database is unaccessible, or certain commands cannot be executed on it.
+ */
+const defaultPostgresDbClient = pgp({...dbConfig, database: "postgres"})
+
+/**
+ * Drops the CityGo database using the PostgreSQL drop command. Useful for when recreating the database from scratch.
+ */
+const dropDatabase = async () => {
+  // TODO: Confirm that this function is working correctly
+  // Terminate just the CityGo database pool, and not the Postgres database one
+  module.exports.dbClient.$pool.end()
+
+  const databaseName = config.DATABASE_CONFIG.database
+  try {
+    await module.exports.defaultPostgresDbClient.none("DROP DATABASE $1~", [databaseName])
+  } catch (error) {
+    logger.info("Error dropping the database: ", error)
+    throw error
+  }
+
+  // Reassign a new pg-promise client to the dbClient export property
+  module.exports.dbClient = pgp(dbConfig)
+}
+
+/**
+ * Closes all the db connections. This prevents the current thread from being unable to exit.
+ *
+ * Note: The clients in this module will no longer work after this is executed.
+ */
+const closeConnections = () => {
+  pgp.end()
+}
+
+// TODO: Implement a "disconnect all" function
+module.exports = { dbClient, defaultPostgresDbClient, dropDatabase, closeConnections }
