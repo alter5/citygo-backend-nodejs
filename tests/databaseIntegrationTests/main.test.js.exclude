@@ -1,3 +1,9 @@
+/* TODO: Global Setup and Teardown:
+    Jest provides global setup and teardown scripts (setupFilesAfterEnv and teardownFilesAfterEnv in Jest config) which can be used to run code before and after all tests.
+    For test cases with db queries, use transactions to make sure other test cases do not change the database contents
+    Rollback the transaction before it finishes to prevent conflicts
+*/
+
 /* TODO: Split test modules based on if they have db dependencies or not. Use different file extensions for both,
 e.g. test.js for ones with db dependencies, and spec.js for ones that don't
 */
