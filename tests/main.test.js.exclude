@@ -1,3 +1,6 @@
+/* TODO: Split test modules based on if they have db dependencies or not. Use different file extensions for both,
+e.g. test.js for ones with db dependencies, and spec.js for ones that don't
+*/
 /**
  * This test script checks if the server functions correctly during its entire lifecycle.
  * It tests the creation of the database environment, as well as the functionality of utility and controller modules

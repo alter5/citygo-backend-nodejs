@@ -13,5 +13,3 @@ describe("Utility middleware.js", () => {
     expect(response.body.error).toContain(errorMessage)
   })
 })
-
-module.exports = { run }

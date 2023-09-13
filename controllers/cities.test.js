@@ -31,5 +31,3 @@ describe("Controller cities.js", () => {
     )
   })
 })
-
-module.exports = { run }

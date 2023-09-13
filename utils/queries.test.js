@@ -19,5 +19,3 @@ describe("Helper queries.js", () => {
     )
   })
 })
-
-module.exports = { run }

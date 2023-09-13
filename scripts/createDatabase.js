@@ -12,9 +12,7 @@ const run = async () => {
   let dbClient = pgp(dbConfig)
 
   // Test connection to the database
-  if (!(await isDbConnectionSuccessful(dbClient))) {
-    throw Error("Database connection was unsuccessful")
-  }
+  await testDBConnection(dbClient)
 
   // Create the city_go and dummy databases
   await createDatabases(dbClient)
@@ -59,16 +57,10 @@ const getDataFromCsvFile = async (fileName) => {
   })
 }
 
-const isDbConnectionSuccessful = async (dbClient) => {
-  try {
-    const connection = await dbClient.connect()
-    logger.info("Connected")
-    connection.done()
-    return true
-  } catch (err) {
-    logger.error("Connection error", err.stack)
-    return false
-  }
+const testDBConnection = async (dbClient) => {
+  const connection = await dbClient.connect()
+  logger.info("Connected to DB successfully")
+  connection.done()
 }
 
 const createDatabases = async (dbClient) => {
