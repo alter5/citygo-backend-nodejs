@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon -L index.js",
-    "test": "cross-env NODE_ENV=test jest --detectOpenHandles ./tests/main.test.js",
-    "serverHealth": "cross-env NODE_ENV=dev jest --detectOpenHandles ./tests/serverHealth.test.js"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
