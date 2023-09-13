@@ -32,5 +32,3 @@ describe("Script createDatabase.js", () => {
     expect(row.city_name).toEqual(cityName)
   })
 })
-
-module.exports = { run }
