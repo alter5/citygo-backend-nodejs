@@ -1,5 +1,6 @@
 const config = {
-  testEnvironment: 'node'
+  testEnvironment: 'node',
+  globalSetup: './globalSetup.js'
 }
 
 module.exports = config
