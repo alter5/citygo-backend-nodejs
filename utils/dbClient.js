@@ -35,17 +35,17 @@ const dropDatabase = async () => {
   }
 
   // Reassign a new pg-promise client to the dbClient export property
+  // The old client is obsolete from dropping the db
   module.exports.dbClient = pgp(dbConfig)
 }
 
 /**
  * Closes all the db connections. This prevents the current thread from being unable to exit.
  *
- * Note: The clients in this module will no longer work after this is executed.
+ * Note: the clients provided in this module's exports will no longer work after this is executed.
  */
 const closeConnections = () => {
   pgp.end()
 }
 
-// TODO: Implement a "disconnect all" function
 module.exports = { dbClient, defaultPostgresDbClient, dropDatabase, closeConnections }

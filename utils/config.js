@@ -3,7 +3,7 @@ const dotenv = require("dotenv") // Variables stored in the .env file
 dotenv.config()
 
 // Flag checking if the npm test script was executed
-const IS_TESTING_MODE_ENABLED = (process.env.NODE_ENV === "test")
+const IS_TESTING_MODE_ENABLED = process.env.NODE_ENV === "test"
 let testPrefixString = ""
 if (IS_TESTING_MODE_ENABLED) {
   testPrefixString = "test_"
@@ -25,6 +25,16 @@ const DATABASE_CONFIG = {
   password: DATABASE_PASSWORD,
   sslmode: "prefer",
   connect_timeout: 10
+}
+
+// Restrict the max number of connections in a pool during testing
+/*
+  Jest test suites run concurrently on individual threads (# of threads = max number of threads available on the PC, minus one)
+  Each test suite/ thread has its own module registry, and creates its own connection pool when importing the dbClient module
+  Thus, the total number of connections is (# of concurrent threads) * (max connection pool size)
+*/
+if (IS_TESTING_MODE_ENABLED) {
+  DATABASE_CONFIG.max = 3
 }
 
 module.exports = {
