@@ -3,6 +3,7 @@ Then, install nvm and run the command "nvm install" and then "nvm use"
 Then, install all packages with "npm i"
 
 Install PostgreSQL with "sudo apt update" and then "sudo apt install postgresql postgresql-contrib"
+Start the server with "sudo service postgresql start"
 Then, enter the psql shell with "sudo -u postgres psql" 
 Set a db password: "postgres=# \password"
 

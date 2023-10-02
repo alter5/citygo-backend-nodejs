@@ -1,5 +1,5 @@
 const queries = require("./queries")
-const logger = require("../utils/logger")
+const logger = require("./logger")
 
 describe("Helper queries.js", () => {
   beforeAll(() => {
