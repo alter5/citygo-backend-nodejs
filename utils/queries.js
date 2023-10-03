@@ -1,4 +1,4 @@
-const dbClient = require("./dbClient")
+const { dbClient } = require("./dbClient")
 const logger = require("../utils/logger")
 const config = require("./config")
 

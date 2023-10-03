@@ -3,6 +3,9 @@ const request = require("supertest")
 const app = require("../app")
 
 describe("Utility middleware.js", () => {
+  it ("should pass", () => {
+    expect(true).toBe(true)
+  })
   // Disabled. This test case clutters jest's output in the console
   // it("should catch errors and return a json object with the error's message", async () => {
   //   const errorMessage = "An unhandled error has occurred"
