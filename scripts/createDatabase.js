@@ -64,12 +64,6 @@ const testDBConnection = async (dbClient) => {
 }
 
 const createDatabases = async (dbClient) => {
-  // Create dummy database
-  // Useful for executing queries when the main database does not exist, or is dropped
-  const dummyDatabaseName = "dummy"
-  await dbClient.none("DROP DATABASE IF EXISTS $1~", [dummyDatabaseName])
-  await dbClient.none("CREATE DATABASE $1~", [dummyDatabaseName])
-
   // Create CityGo database
   const databaseName = config.DATABASE_CONFIG.database
   await dbClient.none("DROP DATABASE IF EXISTS $1~", [databaseName])

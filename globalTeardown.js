@@ -1,10 +1,6 @@
 const dbClient = require("./utils/dbClient")
 
 const globalTeardown = async () => {
-  // TODO: set max pool size to 1 or 2 for testing only
-  // TODO: make sure each test suite closes the pools they create
-  // TODO: delete the database created in globalSetup
-
   // Drop the test database
   await dbClient.dropDatabase()
 
