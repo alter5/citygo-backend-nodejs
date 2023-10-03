@@ -4,8 +4,13 @@ const queries = require("../utils/queries")
 const config = require("../utils/config")
 
 const logger = require("../utils/logger")
+const testUtils = require("../test/testUtils")
 
 describe("Script createDatabase.js", () => {
+  afterAll(async () => {
+    await testUtils.tearDownSuite()
+  })
+
   const databaseName = config.DATABASE_CONFIG.database
   it(
     "connection to the database " + databaseName + " is successful",

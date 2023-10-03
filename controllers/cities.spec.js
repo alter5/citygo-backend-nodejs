@@ -1,18 +1,13 @@
 const request = require("supertest")
 const app = require("../app")
 const queries = require("../utils/queries")
+const testUtils = require("../test/testUtils")
 
 jest.mock("../utils/queries")
 
 describe("Controller cities.js", () => {
-  afterAll(() => {
-    // TODO: Fix unmocking. The mock still persists!
-    jest.unmock("../utils/queries")
-    jest.resetModules()
-  })
-
-  beforeEach(() => {
-    jest.resetAllMocks()
+  afterAll(async () => {
+    await testUtils.tearDownSuite()
   })
 
   it("should return cities from the queries utility module", async () => {

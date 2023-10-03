@@ -1,7 +1,7 @@
 const dbClient = require('../utils/dbClient')
 
-const tearDown = async () => {
+const tearDownSuite = async () => {
   await dbClient.closeConnections()
 }
 
-module.exports = { tearDown }
+module.exports = { tearDownSuite }
