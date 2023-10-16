@@ -12,7 +12,9 @@ describe("Helper queries.js", () => {
     const resultCities = response.result
 
     expect(resultCities).toEqual(
-      expect.arrayContaining(["West New York", "New York"])
+      expect.arrayContaining([
+        expect.objectContaining({city_name: "New York"})]),
+        expect.objectContaining({city_name: "West New York"})
     )
   })
 })

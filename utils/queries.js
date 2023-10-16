@@ -9,8 +9,9 @@ const searchForCities = async (queryString) => {
   `
   const response = {}
   try {
-    const _cities = await dbClient.any(sql, [`%${queryString}%`])
-    const cities = _cities.map((row) => row.city_name)
+    const cities = await dbClient.any(sql, [`%${queryString}%`])
+    // const cities = _cities.map((row) => row.city_name)
+    console.log("🚀 ~ file: queries.js:14 ~ searchForCities ~ _cities:", cities)
     response.result = cities
   } catch (error) {
     response.error = error
