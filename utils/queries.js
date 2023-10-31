@@ -6,6 +6,7 @@ const searchForCities = async (queryString) => {
   const sql = `
   SELECT * FROM cities
   WHERE city_name like $1
+  ORDER BY population desc
   `
   const response = {}
   try {
