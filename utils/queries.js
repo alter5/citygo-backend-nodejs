@@ -10,7 +10,7 @@ const searchForCities = async (queryString) => {
   `
 
   const response = {}
-  
+
   try {
     const cities = await dbClient.any(sql, [`%${queryString}%`])
     response.result = cities
@@ -21,8 +21,4 @@ const searchForCities = async (queryString) => {
   return response
 }
 
-const dropDatabase = async () => {
-
-}
-
-module.exports = { searchForCities, dropDatabase }
+module.exports = { searchForCities }
