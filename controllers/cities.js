@@ -10,6 +10,10 @@ citiesRouter.get("/search", async (request, response) => {
   response.json(result)
 })
 
+citiesRouter.get("/mostPopulous", async(request, response) => {
+  response.json(await queries.getMostPopulousCities())
+})
+
 citiesRouter.get("/test", async (request, response) => {
   response.json({ result: "Success" })
 })
