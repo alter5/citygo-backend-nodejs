@@ -11,7 +11,7 @@ const requestLogger = (request, response, next) => {
 }
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" })
+  response.status(404).send({ success: false, error: "unknown endpoint" })
 }
 
 const errorHandler = (error, request, response, next) => {
@@ -24,7 +24,7 @@ const errorHandler = (error, request, response, next) => {
   errorMessage = errorIntro + "\n" + errorTitle + "\n" + errorStack
 
   logger.error(errorMessage)
-  return response.status(error.status || 500).send({ error: errorMessage })
+  return response.status(error.status || 500).send({ success: false, error: errorMessage })
 
   // Alternatively, you can use next() to use Express's built-in error handler.
   // This built-in handler is added to the end of the middleware function stack, and can be triggered by calling next(error)

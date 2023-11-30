@@ -9,20 +9,19 @@ const searchForCities = async (queryString) => {
   ORDER BY population desc
   `
 
-  const response = {}
-
   // Add wildcard operators
   queryString = "%" + queryString + "%"
+  const cities = await dbClient.any(sql, [queryString])
 
-  try {
-    const cities = await dbClient.any(sql, [queryString])
-    console.log("🚀 ~ file: queries.js:19 ~ searchForCities ~ cities:", cities)
-    response.result = cities
-  } catch (error) {
-    response.error = error
-  }
+  return createSuccessfulResponse(cities)
+}
 
-  return response
+const createSuccessfulResponse = (data) => {
+  return { success: true, data }
+}
+
+const createErrorResponse = (error) => {
+  return { success: false, error }
 }
 
 // const getMostPopulousCities = asnyc () => {

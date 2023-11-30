@@ -11,7 +11,7 @@ describe("Controller cities.js", () => {
   })
 
   it("should return cities from the queries utility module", async () => {
-    const mockResponse = { result: ["Manchester", "Liverpool"] }
+    const mockResponse = { data: ["Manchester", "Liverpool"] }
 
     queries.searchForCities.mockResolvedValueOnce(mockResponse)
 
@@ -21,8 +21,8 @@ describe("Controller cities.js", () => {
 
     expect(response.status).toBe(200)
     expect(response.header["content-type"]).toContain("application/json")
-    expect(response.body.result).toEqual(
-      expect.arrayContaining(mockResponse.result)
+    expect(response.body.data).toEqual(
+      expect.arrayContaining(mockResponse.data)
     )
   })
 })

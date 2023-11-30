@@ -6,6 +6,7 @@ const queries = require("../utils/queries")
 citiesRouter.get("/search", async (request, response) => {
   const queryString = request.query.queryString
   const result = await queries.searchForCities(queryString)
+
   response.json(result)
 })
 

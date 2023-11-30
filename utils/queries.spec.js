@@ -9,7 +9,7 @@ describe("Helper queries.js", () => {
 
   it("should get cities which match query string", async () => {
     const response = await queries.searchForCities("New Yo")
-    const resultCities = response.result
+    const resultCities = response.data
 
     expect(resultCities[0]).toMatchObject({
       city_name: "New York",
