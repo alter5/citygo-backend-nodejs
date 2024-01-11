@@ -28,6 +28,17 @@ const getMostPopulousCities = async () => {
   return createSuccessfulResponse(cities)
 }
 
+const getCityById = async (cityId) => {
+  const sql = /* SQL */ `
+  SELECT * FROM cities
+  WHERE id = $[cityId]
+  `
+  const city = await dbClient.oneOrNone(sql, { cityId })
+  console.log("🚀 ~ getCityById ~ city:", city)
+
+  return createSuccessfulResponse(city)
+}
+
 const createSuccessfulResponse = (data) => {
   return { success: true, data }
 }
@@ -36,4 +47,4 @@ const createErrorResponse = (error) => {
   return { success: false, error }
 }
 
-module.exports = { searchForCities, getMostPopulousCities }
+module.exports = { searchForCities, getMostPopulousCities, getCityById }
