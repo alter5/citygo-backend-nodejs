@@ -17,10 +17,10 @@ const run = async () => {
   // Create the city_go and dummy databases
   await createDatabases(dbClient)
 
-  // Close the pool, since we will be connecting to a different database
+  // Close the pool, since we will be connecting to our newly created database
   await dbClient.$pool.end()
 
-  // Connect to newly created CityGo database
+  // Connect to new CityGo database
   const databaseName = config.DATABASE_CONFIG.database
   dbConfig = { ...dbConfig, database: databaseName }
   dbClient = pgp(dbConfig)
