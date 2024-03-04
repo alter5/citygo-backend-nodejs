@@ -27,19 +27,20 @@ describe("Helper queries.js", () => {
   it("should retrieve a city by its id", async () => {
     const searchString = "New Yo"
 
-    let response = await queries.searchForCities(searchString)
-    const resultCities = response.data
+    const responseSearchCities = await queries.searchForCities(searchString)
+    expect(responseSearchCities.success).toEqual(true)
+    expect(responseSearchCities.data.length).toBeGreaterThan(0)
 
-    const firstCity = resultCities[0]
+    const cityId = responseSearchCities.data[0].id
 
-    response = await queries.getCityById(firstCity.id)
-    const firstCityRetrievedById = response.data
+    const responseGetCityById = await queries.getCityById(cityId)
 
-    expect(firstCityRetrievedById).toEqual(firstCity)
+    expect(responseGetCityById.data).toEqual(responseSearchCities.data[0])
   })
 
   it("should return null if no city is found when searching by ID", async () => {
     const response = await queries.getCityById(99999999)
+    expect(response.success).toEqual(true)
     expect(response.data).toBe(null)
   })
 
@@ -62,10 +63,13 @@ describe("Helper queries.js", () => {
     }
 
     const responseAddTrip = await queries.addTrip(cityCreationDto)
+
     expect(responseAddTrip.success).toEqual(true)
 
     const responseGetTrip = await queries.getTripsByCityId(cityId)
+
     expect(responseGetTrip.success).toEqual(true)
+    expect(responseGetTrip.data.length).toBeGreaterThan(0)
     expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
   })
 })
