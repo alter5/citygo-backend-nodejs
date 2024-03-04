@@ -36,4 +36,15 @@ describe("Script createDatabase.js", () => {
     )
     expect(row.city_name).toEqual(cityName)
   })
+
+  it("should have a table called trips", async () => {
+    const tableName = "trips"
+    const sql = /* SQL */ `
+      SELECT table_name
+      FROM information_schema.tables
+      WHERE table_name = 'trips';
+    `
+    const record = await dbClient.one(sql)
+    expect(record.table_name).toEqual(tableName)
+  })
 })

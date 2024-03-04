@@ -29,6 +29,9 @@ const run = async () => {
   await dbClient.none(getQueryFromFile("createTableCities"))
   await insertCitiesIntoCitiesTable(dbClient)
 
+  // Create trips table
+  await dbClient.none(getQueryFromFile("createTableTrips"))
+
   // Close the unneeded pool
   await dbClient.$pool.end()
 }

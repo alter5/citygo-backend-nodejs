@@ -47,4 +47,10 @@ const createErrorResponse = (error) => {
   return { success: false, error }
 }
 
+const addTrip = async (trip) => {
+  const sql = /* SQL */ `
+  INSERT INTO 
+  `
+}
+
 module.exports = { searchForCities, getMostPopulousCities, getCityById }

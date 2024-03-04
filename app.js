@@ -8,6 +8,7 @@ const middleware = require("./utils/middleware")
 
 // Import controllers
 const citiesRouter = require("./controllers/cities.js")
+const tripsRouter = require("./controllers/trips.js")
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use("/api/cities", citiesRouter)
+app.use("/api/trips", tripsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
