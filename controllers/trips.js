@@ -3,12 +3,16 @@ const tripsRouter = require("express").Router()
 const { dbConfig } = require("../utils/dbClient")
 const queries = require("../utils/queries")
 
-tripsRouter.get("/search", async (request, response) => {
-  // const queryString = request.query.queryString
-  // const result = await queries.searchForCities(queryString)
+tripsRouter.get("/getTripsByCity/:cityId", async (request, response) => {
+  const cityId = request.params.cityId
 
-  // response.json(result)
-  
+  response.json(await queries.getTripsByCityId(cityId))
+})
+
+tripsRouter.post("/createTrip", async (request, response) => {
+  const tripDto = request.body.tripDto
+
+  response.json(await queries.addTrip(tripDto))
 })
 
 module.exports = tripsRouter

@@ -6,7 +6,10 @@ const testUtils = require("../test/testUtils")
 jest.mock("../utils/queries")
 
 describe("Controller cities.js", () => {
+  const url = "/api/cities"
+  
   afterAll(async () => {
+    // Close the connection pool created by importing the queries module
     await testUtils.tearDownSuite()
   })
 
@@ -16,7 +19,7 @@ describe("Controller cities.js", () => {
     queries.searchForCities.mockResolvedValueOnce(mockResponse)
 
     const response = await request(app)
-      .get("/api/cities/search")
+      .get(url + "/search")
       .query({ queryString: "Lorem ipsum" })
 
     expect(response.status).toBe(200)
