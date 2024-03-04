@@ -28,6 +28,7 @@ describe("Helper queries.js", () => {
     const searchString = "New Yo"
 
     const responseSearchCities = await queries.searchForCities(searchString)
+    
     expect(responseSearchCities.success).toEqual(true)
     expect(responseSearchCities.data.length).toBeGreaterThan(0)
 
