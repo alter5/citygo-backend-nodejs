@@ -28,7 +28,7 @@ describe("Helper queries.js", () => {
     const searchString = "New Yo"
 
     const responseSearchCities = await queries.searchForCities(searchString)
-    
+
     expect(responseSearchCities.success).toEqual(true)
     expect(responseSearchCities.data.length).toBeGreaterThan(0)
 
@@ -72,5 +72,31 @@ describe("Helper queries.js", () => {
     expect(responseGetTrip.success).toEqual(true)
     expect(responseGetTrip.data.length).toBeGreaterThan(0)
     expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
+  })
+
+  it("should return an error when creating a trip for a non-existent city", async () => {
+    const cityId = 99999
+
+    const cityCreationDto = {
+      city_id: cityId,
+      title: "Trip to Las Vegas",
+      destinations: [
+        "The Strip",
+        "Fremont Street Experience",
+        "Red Rock Canyon"
+      ],
+      description: "Experience the excitement and entertainment of Las Vegas",
+      priceRange: 4,
+      duration: 3
+    }
+
+    const responseAddTrip = await queries.addTrip(cityCreationDto)
+
+    expect(responseAddTrip.success).toEqual(false)
+
+    const responseGetTrip = await queries.getTripsByCityId(cityId)
+
+    expect(responseGetTrip.success).toEqual(true)
+    expect(responseGetTrip.data.length).toEqual(0)
   })
 })
