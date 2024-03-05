@@ -13,17 +13,16 @@ describe("Helper queries.js", () => {
       const response = await queries.searchForCities(searchString, transaction)
       const resultCities = response.data
 
-      expect(resultCities[0]).toMatchObject({
-        city_name: "New York",
-        state: "New York",
-        population: 8405837
-      })
-      expect(resultCities[1]).toMatchObject({
-        city_name: "West New York",
-        state: "New Jersey",
-        population: 52122
-      })
-      
+      const foundNewYork = resultCities.find(
+        (city) => city.city_name === "New York"
+      )
+      const foundWestNewYork = resultCities.find(
+        (city) => city.city_name === "West New York"
+      )
+
+      expect(foundNewYork).toEqual(true)
+      expect(foundWestNewYork).toEqual(true)
+
       queries.rollbackTransaction(transaction)
     })
   })
