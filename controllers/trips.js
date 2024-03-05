@@ -5,13 +5,11 @@ const queries = require("../utils/queries")
 
 tripsRouter.get("/getTripsByCity/:cityId", async (request, response) => {
   const cityId = request.params.cityId
-
   response.json(await queries.getTripsByCityId(cityId))
 })
 
 tripsRouter.post("/createTrip", async (request, response) => {
   const tripDto = request.body.tripDto
-
   response.json(await queries.addTrip(tripDto))
 })
 
