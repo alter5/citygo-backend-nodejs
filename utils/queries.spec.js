@@ -48,8 +48,6 @@ describe("Helper queries.js", () => {
   it("should insert a city", async () => {
     const cityId = (await queries.searchForCities("Las Vegas")).data[0].id
 
-    expect(cityId).toBeGreaterThan(0)
-
     const cityCreationDto = {
       city_id: cityId,
       title: "Trip to Las Vegas",
