@@ -5,9 +5,7 @@ const logger = require("../utils/logger")
 const dbConfig = config.DATABASE_CONFIG
 
 // Configure DB connection
-const pgp = pgPromise({query: e => {
-  console.log('QUERY:', e.query);
-}})
+const pgp = pgPromise({})
 
 /**
  * This database client is used to execute queries on the main database
