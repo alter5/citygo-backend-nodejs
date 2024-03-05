@@ -134,11 +134,12 @@ const getClient = (transactionContext) => {
 }
 
 const rollbackTransaction = async (transactionContext) => {
-  try {
-    await transactionContext.any("SELECT 1 / 0")
-  } catch (error) {
-    // The transaction rolls back on error
-  }
+  // try {
+  //   await transactionContext.any("SELECT 1 / 0")
+  // } catch (error) {
+  //   // The transaction rolls back on error
+  // }
+  throw new Error()
 }
 
 module.exports = {

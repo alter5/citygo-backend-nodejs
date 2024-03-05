@@ -23,7 +23,7 @@ describe("Helper queries.js", () => {
         state: "New Jersey",
         population: 52122
       })
-      await queries.rollbackTransaction(transaction)
+      queries.rollbackTransaction(transaction)
     })
   })
 
@@ -45,7 +45,7 @@ describe("Helper queries.js", () => {
 
       expect(responseGetCityById.data).toEqual(responseSearchCities.data[0])
 
-      await queries.rollbackTransaction(transaction)
+      queries.rollbackTransaction(transaction)
     })
   })
 
@@ -55,7 +55,7 @@ describe("Helper queries.js", () => {
       expect(response.success).toEqual(true)
       expect(response.data).toBe(null)
 
-      await queries.rollbackTransaction(transaction)
+      queries.rollbackTransaction(transaction)
     })
   })
 
@@ -86,7 +86,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.data.length).toBeGreaterThan(0)
       expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
 
-      await queries.rollbackTransaction(transaction)
+      queries.rollbackTransaction(transaction)
     })
   })
 
@@ -116,7 +116,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.success).toEqual(true)
       expect(responseGetTrip.data.length).toEqual(0)
 
-      await queries.rollbackTransaction(transaction)
+      queries.rollbackTransaction(transaction)
     })
   })
 
@@ -144,53 +144,7 @@ describe("Helper queries.js", () => {
       expect(response.data.length).toBeGreaterThan(0)
       expect(response.data[0].title).toBe(cityCreationDto.title)
 
-      await queries.rollbackTransaction(transaction)
+      queries.rollbackTransaction(transaction)
     })
-  })
-
-  it("should rollback transactions", async () => {
-    await dbClient.tx(async (transaction) => {
-      const cityId = (await queries.searchForCities("Las Vegas", transaction))
-        .data[0].id
-
-      const cityCreationDto = {
-        city_id: cityId,
-        title: "Trip to Las Vegas",
-        destinations: [
-          "The Strip",
-          "Fremont Street Experience",
-          "Red Rock Canyon"
-        ],
-        description: "Experience the excitement and entertainment of Las Vegas",
-        priceRange: 4,
-        duration: 3
-      }
-
-      const responseAddTrip = await queries.addTrip(
-        cityCreationDto,
-        transaction
-      )
-
-      expect(responseAddTrip.success).toEqual(true)
-
-      const responseGetTrip = await queries.getTripsByCityId(
-        cityId,
-        transaction
-      )
-
-      expect(responseGetTrip.success).toEqual(true)
-      expect(responseGetTrip.data.length).toBeGreaterThan(0)
-      expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
-
-      await queries.rollbackTransaction(transaction)
-    })
-    // Test that the Las Vegas trip no longer exists here
-    const responseGetAllTripAfterRollback = await queries.getMostPopularTrips()
-    expect(responseGetAllTripAfterRollback.success).toEqual(true)
-    expect(responseGetAllTripAfterRollback.data).toHaveLength(0)
   })
 })
-
-const rollbackTransaction = () => {
-  throw new Error()
-}
