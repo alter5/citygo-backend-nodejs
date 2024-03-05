@@ -45,7 +45,7 @@ describe("Helper queries.js", () => {
 
       expect(responseGetCityById.data).toEqual(responseSearchCities.data[0])
 
-      queries.rollbackTransaction(transaction)
+      await queries.rollbackTransaction(transaction)
     })
   })
 
@@ -55,7 +55,7 @@ describe("Helper queries.js", () => {
       expect(response.success).toEqual(true)
       expect(response.data).toBe(null)
 
-      queries.rollbackTransaction(transaction)
+      await queries.rollbackTransaction(transaction)
     })
   })
 
@@ -86,7 +86,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.data.length).toBeGreaterThan(0)
       expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
 
-      queries.rollbackTransaction(transaction)
+      await queries.rollbackTransaction(transaction)
     })
   })
 
@@ -116,7 +116,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.success).toEqual(true)
       expect(responseGetTrip.data.length).toEqual(0)
 
-      queries.rollbackTransaction(transaction)
+      await queries.rollbackTransaction(transaction)
     })
   })
 
@@ -144,7 +144,7 @@ describe("Helper queries.js", () => {
       expect(response.data.length).toBeGreaterThan(0)
       expect(response.data[0].title).toBe(cityCreationDto.title)
 
-      queries.rollbackTransaction(transaction)
+      await queries.rollbackTransaction(transaction)
     })
   })
 
@@ -182,7 +182,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.data.length).toBeGreaterThan(0)
       expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
 
-      queries.rollbackTransaction(transaction)
+      await queries.rollbackTransaction(transaction)
     })
     // Test that the Las Vegas trip no longer exists here
     const responseGetAllTripAfterRollback = await queries.getMostPopularTrips()
@@ -190,3 +190,7 @@ describe("Helper queries.js", () => {
     expect(responseGetAllTripAfterRollback.data).toHaveLength(0)
   })
 })
+
+const rollbackTransaction = () => {
+  throw new Error()
+}
