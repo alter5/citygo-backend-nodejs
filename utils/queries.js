@@ -4,7 +4,9 @@ const config = require("./config")
 
 // Use the VSCode extension "Comment tagged templates" to add intellisense to SQL queries
 
-const searchForCities = async (queryString) => {
+const searchForCities = async (queryString, transactionContext) => {
+  const client = getClient(transactionContext)
+
   const sql = /* SQL */ `
     SELECT * FROM cities
     WHERE city_name ILIKE $1
@@ -13,34 +15,40 @@ const searchForCities = async (queryString) => {
 
   // Add wildcard operators
   queryString = "%" + queryString + "%"
-  const cities = await dbClient.any(sql, [queryString])
+  const cities = await client.any(sql, [queryString])
 
   return createSuccessfulResponse(cities)
 }
 
-const getMostPopulousCities = async () => {
+const getMostPopulousCities = async (transactionContext) => {
+  const client = getClient(transactionContext)
+
   const sql = /* SQL */ `
     SELECT * FROM cities
     ORDER BY population desc
     LIMIT 10
   `
 
-  const cities = await dbClient.many(sql)
+  const cities = await client.many(sql)
 
   return createSuccessfulResponse(cities)
 }
 
-const getCityById = async (cityId) => {
+const getCityById = async (cityId, transactionContext) => {
+  const client = getClient(transactionContext)
+
   const sql = /* SQL */ `
     SELECT * FROM cities
     WHERE id = $[cityId]
   `
-  const city = await dbClient.oneOrNone(sql, { cityId })
+  const city = await client.oneOrNone(sql, { cityId })
 
   return createSuccessfulResponse(city)
 }
 
-const addTrip = async (trip) => {
+const addTrip = async (trip, transactionContext) => {
+  const client = getClient(transactionContext)
+
   const sql = /* SQL */ `
     INSERT INTO trips (city_id, title, destinations, description, price_range, duration)
     VALUES ($[city_id], $[title], $[destinations], $[description], $[price_range], $[duration]);
@@ -50,7 +58,7 @@ const addTrip = async (trip) => {
     const { city_id, title, destinations, description, price_range, duration } =
       trip
 
-    await dbClient.none(sql, {
+    await client.none(sql, {
       city_id,
       title,
       destinations,
@@ -64,7 +72,9 @@ const addTrip = async (trip) => {
   }
 }
 
-const getTripsByCityId = async (city_id) => {
+const getTripsByCityId = async (city_id, transactionContext) => {
+  const client = getClient(transactionContext)
+
   const sql = /* SQL */ `
     SELECT *
     FROM trips
@@ -72,10 +82,27 @@ const getTripsByCityId = async (city_id) => {
   `
 
   try {
-    const records = await dbClient.any(sql, { city_id })
+    const records = await client.any(sql, { city_id })
     return createSuccessfulResponse(records)
   } catch (error) {
     return createErrorResponse("Error retrieving trips by id", error)
+  }
+}
+
+const getMostPopularTrips = async (transactionContext) => {
+  const client = getClient(transactionContext)
+
+  const sql = /* SQL */ `
+    SELECT *
+    FROM trips
+    LIMIT 10
+  `
+
+  try {
+    const records = await client.any(sql)
+    return createSuccessfulResponse(records)
+  } catch (error) {
+    createErrorResponse("Error retrieving popular trips", error)
   }
 }
 
@@ -99,10 +126,27 @@ const createErrorResponse = (errorMessage, exception) => {
   return { success: false, errorMessage, exception }
 }
 
+const getClient = (transactionContext) => {
+  if (transactionContext !== undefined) {
+    return transactionContext
+  }
+  return dbClient
+}
+
+const rollbackTransaction = async (transactionContext) => {
+  try {
+    await transactionContext.any("SELECT 1 / 0")
+  } catch (error) {
+    // The transaction rolls back on error
+  }
+}
+
 module.exports = {
   searchForCities,
   getMostPopulousCities,
   getCityById,
   addTrip,
-  getTripsByCityId
+  getTripsByCityId,
+  getMostPopularTrips,
+  rollbackTransaction
 }

@@ -13,4 +13,8 @@ tripsRouter.post("/createTrip", async (request, response) => {
   response.json(await queries.addTrip(tripDto))
 })
 
+tripsRouter.get("/popularTrips", async (request, response) => {
+  response.json(await queries.getMostPopularTrips())
+})
+
 module.exports = tripsRouter
