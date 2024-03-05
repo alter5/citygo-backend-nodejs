@@ -22,8 +22,8 @@ describe("Helper queries.js", () => {
         (city) => city.city_name === "West New York"
       )
 
-      expect(foundNewYork).toEqual(true)
-      expect(foundWestNewYork).toEqual(true)
+      expect(foundNewYork).toBe(true)
+      expect(foundWestNewYork).toBe(true)
 
       queries.rollbackTransaction(transaction)
     })
