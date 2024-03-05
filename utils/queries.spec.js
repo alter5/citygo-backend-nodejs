@@ -23,6 +23,7 @@ describe("Helper queries.js", () => {
         state: "New Jersey",
         population: 52122
       })
+      
       queries.rollbackTransaction(transaction)
     })
   })
