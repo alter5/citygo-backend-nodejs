@@ -11,12 +11,14 @@ describe("Helper queries.js", () => {
     dbClient.tx(async (transaction) => {
       const searchString = "New Yo"
       const response = await queries.searchForCities(searchString, transaction)
-      const resultCities = response.data
 
-      const foundNewYork = resultCities.find(
+      expect(response.success).toBe(true)
+      expect(response.data.length).toBeGreaterThan(0)
+
+      const foundNewYork = response.data.find(
         (city) => city.city_name === "New York"
       )
-      const foundWestNewYork = resultCities.find(
+      const foundWestNewYork = response.data.find(
         (city) => city.city_name === "West New York"
       )
 
@@ -36,7 +38,7 @@ describe("Helper queries.js", () => {
         transaction
       )
 
-      expect(responseSearchCities.success).toEqual(true)
+      expect(responseSearchCities.success).toBe(true)
       expect(responseSearchCities.data.length).toBeGreaterThan(0)
 
       const cityId = responseSearchCities.data[0].id
@@ -52,7 +54,7 @@ describe("Helper queries.js", () => {
   it("should return null if no city is found when searching by ID", async () => {
     dbClient.tx(async (transaction) => {
       const response = await queries.getCityById(99999999, transaction)
-      expect(response.success).toEqual(true)
+      expect(response.success).toBe(true)
       expect(response.data).toBe(null)
 
       queries.rollbackTransaction(transaction)
@@ -78,11 +80,11 @@ describe("Helper queries.js", () => {
 
       const responseAddTrip = await queries.addTrip(cityCreationDto)
 
-      expect(responseAddTrip.success).toEqual(true)
+      expect(responseAddTrip.success).toBe(true)
 
       const responseGetTrip = await queries.getTripsByCityId(cityId)
 
-      expect(responseGetTrip.success).toEqual(true)
+      expect(responseGetTrip.success).toBe(true)
       expect(responseGetTrip.data.length).toBeGreaterThan(0)
       expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
 
@@ -109,7 +111,7 @@ describe("Helper queries.js", () => {
 
       const responseAddTrip = await queries.addTrip(cityCreationDto)
 
-      expect(responseAddTrip.success).toEqual(false)
+      expect(responseAddTrip.success).toBe(false)
 
       const responseGetTrip = await queries.getTripsByCityId(cityId)
 
@@ -140,7 +142,7 @@ describe("Helper queries.js", () => {
       await queries.addTrip(cityCreationDto)
 
       const response = await queries.getMostPopularTrips(transaction)
-      expect(response.success).toEqual(true)
+      expect(response.success).toBe(true)
       expect(response.data.length).toBeGreaterThan(0)
       expect(response.data[0].title).toBe(cityCreationDto.title)
 
