@@ -11,3 +11,9 @@ Once PostgreSQL is installed, use the following commands to manage the db:
   sudo service postgresql status for checking the status of your database.
   sudo service postgresql start to start running your database.
   sudo service postgresql stop to stop running your database.
+
+Initalize the database by running the following script:
+  npm run create_database
+
+Finally, start the server by running
+  npm run dev

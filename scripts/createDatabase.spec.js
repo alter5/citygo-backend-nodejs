@@ -45,6 +45,6 @@ describe("Script createDatabase.js", () => {
       WHERE table_name = 'trips';
     `
     const record = await dbClient.one(sql)
-    expect(record.table_name).toEqual(tableName)
+    expect(record.table_name).toBe(tableName)
   })
 })

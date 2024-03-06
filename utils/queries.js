@@ -121,11 +121,13 @@ const createErrorResponse = (errorMessage, exception) => {
     exception = {}
   }
 
+  console.error(errorMessage, exception)
+
   const error =
     errorMessage +
     ":\n" +
     JSON.stringify(exception, Object.getOwnPropertyNames(exception))
-    
+
   return { success: false, error }
 }
 

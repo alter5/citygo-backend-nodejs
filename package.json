@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon -L index.js",
+    "create_database": "node .\\scripts\\main.js",
     "test": "cross-env NODE_ENV=test jest"
   },
   "author": "",

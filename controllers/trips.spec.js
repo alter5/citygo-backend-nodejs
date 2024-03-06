@@ -22,9 +22,6 @@ describe("Controller cities.js", () => {
     .post(url + "/createTrip")
     .send({ tripDto: { title: "Title 1" } })
 
-
-    console.log("🚀 ~ it ~ response:", response)
-
     expect(response.status).toBe(200)
     expect(response.header["content-type"]).toContain("application/json")
     expect(response.body.success).toEqual(true)
