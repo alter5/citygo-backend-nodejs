@@ -98,15 +98,15 @@ const getMostPopularTrips = async (transactionContext) => {
   const client = getClient(transactionContext)
 
   const sql = /* SQL */ `
-    SELECT *
-    FROM trips
-    JOIN cities ON cities.id = trips.id
-    LIMIT 10
+      SELECT t.*, to_json(c.*) city
+      FROM trips t
+      JOIN cities c ON c.id = t.id
+      LIMIT 10
   `
 
   try {
     const records = await client.any(sql)
-    console.log("🚀 ~ getMostPopularTrips ~ records:", records)
+    console.log("🚀 ~ getMostPopularTrips ~ response:", records)
     return createSuccessfulResponse(records)
   } catch (error) {
     createErrorResponse("Error retrieving popular trips", error)
