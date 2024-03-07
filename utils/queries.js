@@ -106,6 +106,7 @@ const getMostPopularTrips = async (transactionContext) => {
 
   try {
     const records = await client.any(sql)
+    console.log("🚀 ~ getMostPopularTrips ~ records:", records)
     return createSuccessfulResponse(records)
   } catch (error) {
     createErrorResponse("Error retrieving popular trips", error)

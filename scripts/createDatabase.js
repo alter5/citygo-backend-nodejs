@@ -78,7 +78,7 @@ const insertCitiesIntoCitiesTable = async (dbClient) => {
 
   const cities = await getDataFromCsvFile("cities")
   const cs = new pgp.helpers.ColumnSet(
-    ["city_name", "state", "population", "latitude", "longitude"],
+    ["city_name", "state", "state_abbreviation", "population", "latitude", "longitude"],
     { table: "cities" }
   )
 
