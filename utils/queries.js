@@ -49,19 +49,24 @@ const getCityById = async (cityId, transactionContext) => {
 const addTrip = async (trip, transactionContext) => {
   const client = getClient(transactionContext)
 
+  const destinationsWithImages = trip.destinations.map((destination) => {
+    return { name: destination, imageUrl: "http://image-url.com/" }
+  })
+
+  const formattedDestinations = JSON.stringify(destinationsWithImages)
+
   const sql = /* SQL */ `
     INSERT INTO trips (city_id, title, destinations, description, price_range, duration)
     VALUES ($[city_id], $[title], $[destinations], $[description], $[price_range], $[duration]);
   `
 
   try {
-    const { city_id, title, destinations, description, price_range, duration } =
-      trip
+    const { city_id, title, description, price_range, duration } = trip
 
     await client.none(sql, {
       city_id,
       title,
-      destinations,
+      destinations: formattedDestinations,
       description,
       price_range,
       duration
@@ -95,6 +100,7 @@ const getMostPopularTrips = async (transactionContext) => {
   const sql = /* SQL */ `
     SELECT *
     FROM trips
+    JOIN cities ON cities.id = trips.id
     LIMIT 10
   `
 
@@ -144,7 +150,7 @@ const rollbackTransaction = async (transactionContext) => {
   // } catch (error) {
   //   // The transaction rolls back on error
   // }
-  throw new Error()
+  // throw new Error()
 }
 
 module.exports = {
