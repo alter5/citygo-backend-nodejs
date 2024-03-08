@@ -5,5 +5,6 @@ CREATE TABLE trips(
   destinations jsonb,
   description text,
   price_range int,
-  duration int
+  duration int,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );

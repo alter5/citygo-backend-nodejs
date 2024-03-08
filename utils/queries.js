@@ -50,7 +50,7 @@ const addTrip = async (trip, transactionContext) => {
   const client = getClient(transactionContext)
 
   const destinationsWithImages = trip.destinations.map((destination) => {
-    return { name: destination, imageUrl: "http://image-url.com/" }
+    return { name: destination, imageUrl: "assets/images/city-card-images/ny-times-square.jpg" }
   })
 
   const formattedDestinations = JSON.stringify(destinationsWithImages)
@@ -101,6 +101,7 @@ const getMostPopularTrips = async (transactionContext) => {
       SELECT t.*, to_json(c.*) city
       FROM trips t
       JOIN cities c ON c.id = t.id
+      ORDER BY t.created_at desc
       LIMIT 10
   `
 
