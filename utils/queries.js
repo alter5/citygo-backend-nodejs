@@ -79,7 +79,7 @@ const addTrip = async (trip, transactionContext) => {
   try {
     const { city_id, title, description, price_range, duration } = trip
 
-    const records = await client.one(sql, {
+    const record = await client.one(sql, {
       city_id,
       title,
       destinations: formattedDestinations,
@@ -88,7 +88,7 @@ const addTrip = async (trip, transactionContext) => {
       duration
     })
 
-    return createSuccessfulResponse(records)
+    return createSuccessfulResponse({ tripId: record.id})
   } catch (error) {
     return createErrorResponse("Error creating trip", error)
   }
@@ -137,7 +137,7 @@ const getTripById = async (tripId, transactionContext) => {
     SELECT t.*, to_json(c.*) city
     FROM trips t
     JOIN cities c ON c.id = t.id
-    WHERE trips.id = $[tripId]
+    WHERE t.id = $[tripId]
   `
 
   try {

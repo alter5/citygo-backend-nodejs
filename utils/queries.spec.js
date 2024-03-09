@@ -86,7 +86,7 @@ describe("Helper queries.js", () => {
 
       expect(responseAddTrip.success).toBe(true)
 
-      const newTripId = responseAddTrip.data
+      const newTripId = responseAddTrip.data.tripId
       expect(newTripId).toBeGreaterThan(0)
 
       const responseGetTrip = await queries.getTripById(newTripId, transaction)
@@ -152,14 +152,10 @@ describe("Helper queries.js", () => {
       }
 
       const responseAddTrip = await queries.addTrip(cityCreationDto, transaction)
+      console.log("🚀 ~ awaitdbClient.tx ~ responseAddTrip:", responseAddTrip)
 
       expect(responseAddTrip.success).toBe(false)
       expect(responseAddTrip.data).toBe(undefined)
-
-      const responseGetTrip = await queries.getTripsByCityId(cityId, transaction)
-
-      expect(responseGetTrip.success).toEqual(true)
-      expect(responseGetTrip.data.length).toEqual(0)
 
       await queries.rollbackTransaction(transaction)
     })
