@@ -4,7 +4,7 @@ const config = require("./config")
 
 // Use the VSCode extension "Comment tagged templates" to add intellisense to SQL queries
 
-const searchForCities = async (queryString, transactionContext) => {
+const searchForCities = async (searchString, transactionContext) => {
   const client = getClient(transactionContext)
 
   const sql = /* SQL */ `
@@ -12,12 +12,17 @@ const searchForCities = async (queryString, transactionContext) => {
     WHERE city_name ILIKE $1
     ORDER BY population desc
   `
-
-  // Add wildcard operators
-  queryString = "%" + queryString + "%"
-  const cities = await client.any(sql, [queryString])
-
-  return createSuccessfulResponse(cities)
+  try {
+    // Add wildcard operators
+    searchString = "%" + searchString + "%"
+    const records = await client.any(sql, [searchString])
+    return createSuccessfulResponse(records)
+  } catch (error) {
+    return createErrorResponse(
+      "Error searching for cities with search string",
+      error
+    )
+  }
 }
 
 const getMostPopulousCities = async (transactionContext) => {
@@ -29,9 +34,12 @@ const getMostPopulousCities = async (transactionContext) => {
     LIMIT 10
   `
 
-  const cities = await client.many(sql)
-
-  return createSuccessfulResponse(cities)
+  try {
+    const records = await client.many(sql)
+    return createSuccessfulResponse(records)
+  } catch (error) {
+    return createErrorResponse("Error getting most populous cities", error)
+  }
 }
 
 const getCityById = async (cityId, transactionContext) => {
@@ -41,29 +49,37 @@ const getCityById = async (cityId, transactionContext) => {
     SELECT * FROM cities
     WHERE id = $[cityId]
   `
-  const city = await client.oneOrNone(sql, { cityId })
 
-  return createSuccessfulResponse(city)
+  try {
+    const records = await client.one(sql, { cityId })
+    return createSuccessfulResponse(records)
+  } catch (error) {
+    return createErrorResponse("Error getting city by id", error)
+  }
 }
 
 const addTrip = async (trip, transactionContext) => {
   const client = getClient(transactionContext)
 
   const destinationsWithImages = trip.destinations.map((destination) => {
-    return { name: destination, imageUrl: "assets/images/city-card-images/ny-times-square.jpg" }
+    return {
+      name: destination,
+      imageUrl: "assets/images/city-card-images/ny-times-square.jpg"
+    }
   })
 
   const formattedDestinations = JSON.stringify(destinationsWithImages)
 
   const sql = /* SQL */ `
     INSERT INTO trips (city_id, title, destinations, description, price_range, duration)
-    VALUES ($[city_id], $[title], $[destinations], $[description], $[price_range], $[duration]);
+    VALUES ($[city_id], $[title], $[destinations], $[description], $[price_range], $[duration])
+    RETURNING id;
   `
 
   try {
     const { city_id, title, description, price_range, duration } = trip
 
-    await client.none(sql, {
+    const records = await client.one(sql, {
       city_id,
       title,
       destinations: formattedDestinations,
@@ -71,7 +87,8 @@ const addTrip = async (trip, transactionContext) => {
       price_range,
       duration
     })
-    return createSuccessfulResponse()
+
+    return createSuccessfulResponse(records)
   } catch (error) {
     return createErrorResponse("Error creating trip", error)
   }
@@ -109,7 +126,25 @@ const getMostPopularTrips = async (transactionContext) => {
     const records = await client.any(sql)
     return createSuccessfulResponse(records)
   } catch (error) {
-    createErrorResponse("Error retrieving popular trips", error)
+    return createErrorResponse("Error retrieving popular trips", error)
+  }
+}
+
+const getTripById = async (tripId, transactionContext) => {
+  const client = getClient(transactionContext)
+
+  const sql = /* SQL */ `
+    SELECT t.*, to_json(c.*) city
+    FROM trips t
+    JOIN cities c ON c.id = t.id
+    WHERE trips.id = $[tripId]
+  `
+
+  try {
+    const record = await client.oneOrNone(sql, { tripId })
+    return createSuccessfulResponse(record)
+  } catch (error) {
+    return createErrorResponse("Error getting trip by id", error)
   }
 }
 
@@ -151,7 +186,6 @@ const rollbackTransaction = async (transactionContext) => {
   // } catch (error) {
   //   // The transaction rolls back on error
   // }
-  // throw new Error()
 }
 
 module.exports = {
@@ -161,5 +195,6 @@ module.exports = {
   addTrip,
   getTripsByCityId,
   getMostPopularTrips,
-  rollbackTransaction
+  rollbackTransaction,
+  getTripById
 }

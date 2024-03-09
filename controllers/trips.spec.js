@@ -19,8 +19,8 @@ describe("Controller cities.js", () => {
     queries.addTrip.mockResolvedValueOnce(mockResponse)
 
     const response = await request(app)
-    .post(url + "/createTrip")
-    .send({ tripDto: { title: "Title 1" } })
+      .post(url + "/createTrip")
+      .send({ tripDto: { title: "Title 1" } })
 
     expect(response.status).toBe(200)
     expect(response.header["content-type"]).toContain("application/json")
@@ -37,15 +37,29 @@ describe("Controller cities.js", () => {
 
     const city_id = 999
 
-    const response = await request(app)
-      .get(url + "/getTripsByCity/" + city_id)
+    const response = await request(app).get(url + "/getTripsByCity/" + city_id)
 
     expect(response.status).toBe(200)
     expect(response.header["content-type"]).toContain("application/json")
     expect(response.body.success).toEqual(true)
     expect(response.body.data.length).toBeGreaterThan(0)
     expect(response.body.data[0].title).toEqual("Short trip in Manchester")
+  })
 
-    //
+  it("should get a trip by id", async () => {
+    const mockResponse = {
+      success: true,
+      data: { title: "Short trip in Manchester" }
+    }
+    const tripId = 999
+
+    queries.getTripById.mockResolvedValueOnce(mockResponse)
+
+    const response = await request(app).get(url + "/" + tripId)
+
+    expect(queries.getTripById).toHaveBeenCalled()
+    expect(response.header["content-type"]).toContain("application/json")
+    expect(response.body.success).toBe(true)
+    expect(response.body.data.title).toBe(mockResponse.data.title)
   })
 })

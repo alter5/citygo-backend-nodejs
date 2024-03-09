@@ -25,11 +25,11 @@ const run = async () => {
   dbConfig = { ...dbConfig, database: databaseName }
   dbClient = pgp(dbConfig)
 
-  // Create cities table
+  // Create table cities
   await dbClient.none(getQueryFromFile("createTableCities"))
   await insertCitiesIntoCitiesTable(dbClient)
 
-  // Create trips table
+  // Create table trips
   await dbClient.none(getQueryFromFile("createTableTrips"))
 
   // Close the unneeded pool

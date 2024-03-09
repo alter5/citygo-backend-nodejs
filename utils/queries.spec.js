@@ -54,16 +54,89 @@ describe("Helper queries.js", () => {
   it("should return null if no city is found when searching by ID", async () => {
     await dbClient.tx(async (transaction) => {
       const response = await queries.getCityById(99999999, transaction)
-      expect(response.success).toBe(true)
-      expect(response.data).toBe(null)
+      expect(response.success).toBe(false)
+      expect(response.data).toBe(undefined)
 
       await queries.rollbackTransaction(transaction)
     })
   })
 
-  it("should insert a city", async () => {
+  it("should insert a trip, and retrieve a trip by id", async () => {
     await dbClient.tx(async (transaction) => {
-      const cityId = (await queries.searchForCities("Las Vegas", transaction)).data[0].id
+      const cityId = (await queries.searchForCities("Las Vegas", transaction))
+        .data[0].id
+
+      const cityCreationDto = {
+        city_id: cityId,
+        title: "Trip to Las Vegas",
+        destinations: [
+          "The Strip",
+          "Fremont Street Experience",
+          "Red Rock Canyon"
+        ],
+        description: "Experience the excitement and entertainment of Las Vegas",
+        priceRange: 4,
+        duration: 3
+      }
+
+      const responseAddTrip = await queries.addTrip(
+        cityCreationDto,
+        transaction
+      )
+
+      expect(responseAddTrip.success).toBe(true)
+
+      const newTripId = responseAddTrip.data
+      expect(newTripId).toBeGreaterThan(0)
+
+      const responseGetTrip = await queries.getTripById(newTripId, transaction)
+
+      expect(responseGetTrip.success).toBe(true)
+
+      expect(responseGetTrip.data.title).toBe(cityCreationDto.title)
+      expect(responseGetTrip.data.destinations[0].name).toBe(
+        cityCreationDto.destinations[0]
+      )
+
+      await queries.rollbackTransaction(transaction)
+    })
+  })
+
+  it("should return an error when unsuccessfully inserting a trip", async () => {
+    await dbClient.tx(async (transaction) => {
+      const cityId = 9999999
+
+      const cityCreationDto = {
+        city_id: cityId,
+        title: "Trip to Las Vegas",
+        destinations: [
+          "The Strip",
+          "Fremont Street Experience",
+          "Red Rock Canyon"
+        ],
+        description: "Experience the excitement and entertainment of Las Vegas",
+        priceRange: 4,
+        duration: 3
+      }
+
+      const responseAddTrip = await queries.addTrip(
+        cityCreationDto,
+        transaction
+      )
+
+      expect(responseAddTrip.success).toBe(false)
+
+      const newTripId = responseAddTrip.data
+      expect(newTripId).toBe(undefined)
+
+      await queries.rollbackTransaction(transaction)
+    })
+  })
+
+
+  it("should return an error when creating a trip for a non-existent city", async () => {
+    await dbClient.tx(async (transaction) => {
+      const cityId = 9999999
 
       const cityCreationDto = {
         city_id: cityId,
@@ -80,45 +153,10 @@ describe("Helper queries.js", () => {
 
       const responseAddTrip = await queries.addTrip(cityCreationDto, transaction)
 
-      expect(responseAddTrip.success).toBe(true)
+      expect(responseAddTrip.success).toBe(false)
+      expect(responseAddTrip.data).toBe(undefined)
 
       const responseGetTrip = await queries.getTripsByCityId(cityId, transaction)
-
-      expect(responseGetTrip.success).toBe(true)
-      expect(responseGetTrip.data.length).toBeGreaterThan(0)
-      expect(responseGetTrip.data[0].title).toBe(cityCreationDto.title)
-
-      console.log("🚀 ~ awaitdbClient.tx ~ responseGetTrip.data[0].destinations[0].name:", responseGetTrip.data[0].destinations[0].name)
-
-      console.log("🚀 ~ awaitdbClient.tx ~ cityCreationDto.destinations[0]:", cityCreationDto.destinations[0])
-      expect(responseGetTrip.data[0].destinations[0].name).toBe(cityCreationDto.destinations[0])
-
-      await queries.rollbackTransaction(transaction)
-    })
-  })
-
-  it("should return an error when creating a trip for a non-existent city", async () => {
-    await dbClient.tx(async (transaction) => {
-      const cityId = 99999
-
-      const cityCreationDto = {
-        city_id: cityId,
-        title: "Trip to Las Vegas",
-        destinations: [
-          "The Strip",
-          "Fremont Street Experience",
-          "Red Rock Canyon"
-        ],
-        description: "Experience the excitement and entertainment of Las Vegas",
-        priceRange: 4,
-        duration: 3
-      }
-
-      const responseAddTrip = await queries.addTrip(cityCreationDto)
-
-      expect(responseAddTrip.success).toBe(false)
-
-      const responseGetTrip = await queries.getTripsByCityId(cityId)
 
       expect(responseGetTrip.success).toEqual(true)
       expect(responseGetTrip.data.length).toEqual(0)
