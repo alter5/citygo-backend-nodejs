@@ -55,7 +55,7 @@ describe("Controller cities.js", () => {
 
     queries.getTripById.mockResolvedValueOnce(mockResponse)
 
-    const response = await request(app).get(url + "/" + tripId)
+    const response = await request(app).get(url + "/getTripById/" + tripId)
 
     expect(queries.getTripById).toHaveBeenCalled()
     expect(response.header["content-type"]).toContain("application/json")

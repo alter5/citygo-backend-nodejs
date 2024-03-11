@@ -18,7 +18,7 @@ citiesRouter.get("/test", async (request, response) => {
   response.json({ result: "Success" })
 })
 
-citiesRouter.get("/:cityId", async (request, response) => {
+citiesRouter.get("/getCityById/:cityId", async (request, response) => {
   const cityId = parseInt(request.params.cityId)
   response.json(await queries.getCityById(cityId))
 })

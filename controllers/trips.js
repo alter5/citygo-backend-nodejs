@@ -3,7 +3,7 @@ const tripsRouter = require("express").Router()
 const { dbConfig } = require("../utils/dbClient")
 const queries = require("../utils/queries")
 
-tripsRouter.get("/:tripId", async (request, response) => {
+tripsRouter.get("/getTripById/:tripId", async (request, response) => {
   const tripId = request.params.tripId
   response.json(await queries.getTripById(tripId))
 })
