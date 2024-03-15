@@ -99,6 +99,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.data.destinations[0].name).toBe(
         cityCreationDto.destinations[0].name
       )
+      expect(responseGetTrip.data.destinations[0].imageUrl).not.toBeUndefined()
 
       await queries.rollbackTransaction(transaction)
     })
@@ -135,7 +136,6 @@ describe("Helper queries.js", () => {
     })
   })
 
-
   it("should return an error when creating a trip for a non-existent city", async () => {
     await dbClient.tx(async (transaction) => {
       const cityId = 9999999
@@ -153,7 +153,10 @@ describe("Helper queries.js", () => {
         duration: 3
       }
 
-      const responseAddTrip = await queries.addTrip(cityCreationDto, transaction)
+      const responseAddTrip = await queries.addTrip(
+        cityCreationDto,
+        transaction
+      )
       console.log("🚀 ~ awaitdbClient.tx ~ responseAddTrip:", responseAddTrip)
 
       expect(responseAddTrip.success).toBe(false)
@@ -180,8 +183,10 @@ describe("Helper queries.js", () => {
         duration: 3
       }
 
-      console.log("🚀 ~ promises ~ config.IS_TESTING_MODE_ENABLED:", config.IS_TESTING_MODE_ENABLED)
-
+      console.log(
+        "🚀 ~ promises ~ config.IS_TESTING_MODE_ENABLED:",
+        config.IS_TESTING_MODE_ENABLED
+      )
 
       await queries.addTrip(cityCreationDto)
 
