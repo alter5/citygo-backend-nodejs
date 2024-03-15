@@ -91,7 +91,6 @@ describe("Helper queries.js", () => {
       expect(newTripId).toBeGreaterThan(0)
 
       const responseGetTrip = await queries.getTripById(newTripId, transaction)
-      console.log("🚀 ~ awaitdbClient.tx ~ responseGetTrip:", responseGetTrip)
 
       expect(responseGetTrip.success).toBe(true)
 
@@ -157,7 +156,6 @@ describe("Helper queries.js", () => {
         cityCreationDto,
         transaction
       )
-      console.log("🚀 ~ awaitdbClient.tx ~ responseAddTrip:", responseAddTrip)
 
       expect(responseAddTrip.success).toBe(false)
       expect(responseAddTrip.data).toBe(undefined)
@@ -183,11 +181,6 @@ describe("Helper queries.js", () => {
         duration: 3
       }
 
-      console.log(
-        "🚀 ~ promises ~ config.IS_TESTING_MODE_ENABLED:",
-        config.IS_TESTING_MODE_ENABLED
-      )
-
       await queries.addTrip(cityCreationDto)
 
       const response = await queries.getMostPopularTrips(transaction)
@@ -203,7 +196,6 @@ describe("Helper queries.js", () => {
     const searchString = "Times Square, New York City"
 
     const imageUrl = await queries.getImageWithSearchString(searchString)
-    console.log("🚀 ~ it ~ imageUrl:", imageUrl)
 
     expect(imageUrl).not.toBeNull()
   })
