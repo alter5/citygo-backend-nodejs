@@ -62,8 +62,11 @@ const getCityById = async (cityId, transactionContext) => {
 const addTrip = async (tripDto, transactionContext) => {
   const client = getClient(transactionContext)
 
+  const responseCity = await getCityById(tripDto.city_id)
+  const cityName = responseCity.data.city_name
+
   try {
-    await addImagesToTrip(tripDto)
+    await addImagesToTrip(tripDto, cityName)
   } catch (error) {
     return createErrorResponse("Error adding trip", error)
   }
@@ -93,11 +96,7 @@ const addTrip = async (tripDto, transactionContext) => {
   }
 }
 
-const addImagesToTrip = async (tripDto) => {
-  const responseCity = await getCityById(tripDto.city_id)
-
-  const cityName = responseCity.data.city_name
-
+const addImagesToTrip = async (tripDto, cityName) => {
   const promises = tripDto.destinations.map(async (destination) => {
     let imageUrl
     if (config.IS_TESTING_MODE_ENABLED) {
@@ -134,8 +133,6 @@ const getImageWithSearchString = async (searchString) => {
       query: searchString
     }
   })
-
-  console.log("🚀 ~ getImageWithSearchString ~ response:", response.data)
 
   const imageUrl = response.data.results[0].urls.full
 
@@ -194,6 +191,29 @@ const getTripById = async (tripId, transactionContext) => {
   } catch (error) {
     return createErrorResponse("Error getting trip by id", error)
   }
+}
+
+const addGoogleMapsLocationsToTrip = (trip, cityName) => {
+  const searchString = trip + ", " + cityName
+}
+
+const getLocationForString = (searchString) => {
+  const googleMapsPlacesBaseUrl = "https://places.googleapis.com/v1/places"
+
+  // TODO: google maps api: https://developers.google.com/maps/documentation/places/web-service/text-search#find-places-one-type
+  // NOTE: provides image as well!
+
+  const response = axios.post(googleMapsPlacesBaseUrl, {
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": config.GOOGLE_MAPS_KEY,
+      "X-Goog-FieldMask":
+        "places.displayName,places.formattedAddress,places.priceLevel"
+    },
+    params: {
+      textQuery: searchString
+    }
+  })
 }
 
 const createSuccessfulResponse = (data) => {
