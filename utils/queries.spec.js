@@ -199,4 +199,10 @@ describe("Helper queries.js", () => {
 
     expect(imageUrl).not.toBeNull()
   })
+
+  it("should retrieve google maps data for a given search string", async () => {
+    const googleMapsData = await queries.getGoogleMapsData("Times Square, New York City")
+    console.log("🚀 ~ it ~ googleMapsData:", googleMapsData)
+    expect(googleMapsData.data).toBeTruthy()
+  })
 })

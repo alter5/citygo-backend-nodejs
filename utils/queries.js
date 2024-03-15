@@ -69,7 +69,7 @@ const addTrip = async (tripDto, transactionContext) => {
         tripDto.city_id
     )
   }
-  
+
   const cityName = responseCity.data.city_name
 
   try {
@@ -200,27 +200,37 @@ const getTripById = async (tripId, transactionContext) => {
   }
 }
 
-const addGoogleMapsLocationsToTrip = (trip, cityName) => {
+const addGoogleMapsDataToTrip = async (trip, cityName) => {
   const searchString = trip + ", " + cityName
+
+  const promises = trip.destinations.map(async (destination) => {
+    const googleMapsData = await getGoogleMapsData(destination.name + ", " + cityName)
+    console.log("🚀 ~ promises ~ googleMapsData:", googleMapsData)
+  })
+
+  const result = await Promise.all(promises)
+  return result
 }
 
-const getLocationForString = (searchString) => {
-  const googleMapsPlacesBaseUrl = "https://places.googleapis.com/v1/places"
+const getGoogleMapsData = async (searchString) => {
+  const googleMapsPlacesBaseUrl = "https://places.googleapis.com/v1/places:searchText"
 
   // TODO: google maps api: https://developers.google.com/maps/documentation/places/web-service/text-search#find-places-one-type
-  // NOTE: provides image as well!
+  // NOTE: PHOTOS URLS ARE INVALID
 
-  const response = axios.post(googleMapsPlacesBaseUrl, {
+  const response = await axios.post(googleMapsPlacesBaseUrl, {
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": config.GOOGLE_MAPS_KEY,
       "X-Goog-FieldMask":
-        "places.displayName,places.formattedAddress,places.priceLevel"
+        "places.displayName,places.formattedAddress,places.priceLevel,places.photos"
     },
     params: {
       textQuery: searchString
     }
   })
+
+  return response.data
 }
 
 const createSuccessfulResponse = (data) => {
@@ -272,5 +282,6 @@ module.exports = {
   getMostPopularTrips,
   rollbackTransaction,
   getTripById,
-  getImageWithSearchString
+  getImageWithSearchString,
+  getGoogleMapsData
 }
