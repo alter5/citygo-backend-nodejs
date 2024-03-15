@@ -188,4 +188,13 @@ describe("Helper queries.js", () => {
       await queries.rollbackTransaction(transaction)
     })
   })
+
+  it("should retrieve an image for a given search string", async () => {
+    const searchString = "Times Square, New York City"
+
+    const imageUrl = await queries.getImageWithSearchString(searchString)
+    console.log("🚀 ~ it ~ imageUrl:", imageUrl)
+
+    expect(imageUrl).not.toBeNull()
+  })
 })

@@ -22,4 +22,8 @@ tripsRouter.get("/popularTrips", async (request, response) => {
   response.json(await queries.getMostPopularTrips())
 })
 
+tripsRouter.get("/imageTest", async (request, response) => {
+  response.json(await queries.getImageWithSearchString())
+})
+
 module.exports = tripsRouter
