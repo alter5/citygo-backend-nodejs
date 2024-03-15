@@ -62,7 +62,11 @@ const getCityById = async (cityId, transactionContext) => {
 const addTrip = async (tripDto, transactionContext) => {
   const client = getClient(transactionContext)
 
-  addImagesToTrip(tripDto)
+  try {
+    await addImagesToTrip(tripDto)
+  } catch (error) {
+    return createErrorResponse("Error adding trip", error)
+  }
 
   const sql = /* SQL */ `
     INSERT INTO trips (city_id, title, destinations, description, price_range, duration)
@@ -91,21 +95,28 @@ const addTrip = async (tripDto, transactionContext) => {
 
 const addImagesToTrip = async (tripDto) => {
   const responseCity = await getCityById(tripDto.city_id)
+
   const cityName = responseCity.data.city_name
 
-  const destinationsWithImages = tripDto.destinations.map(
-    async (destination) => {
-      let imageUrl
-      if (config.IS_TESTING_MODE_ENABLED) {
-        imageUrl = "https://images.unsplash.com/photo-1485470733090-0aae1788d5af?q=80&w=1217&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      } else {
-        imageUrl = await getImageWithSearchString(
-          destination.name + ", " + cityName
-        )
-      }
-      return { name: destination, imageUrl }
+  const promises = tripDto.destinations.map(async (destination) => {
+    let imageUrl
+    if (config.IS_TESTING_MODE_ENABLED) {
+      imageUrl =
+        "https://images.unsplash.com/photo-1485470733090-0aae1788d5af?q=80&w=1217&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    } else {
+      imageUrl = await getImageWithSearchString(
+        destination.name + ", " + cityName
+      )
     }
-  )
+    return { name: destination, imageUrl }
+  })
+
+  let destinationsWithImages
+  try {
+    destinationsWithImages = await Promise.all(promises)
+  } catch (error) {
+    console.error("Error adding images to new trip", error)
+  }
 
   tripDto.destinations = destinationsWithImages
 }
@@ -173,7 +184,7 @@ const getTripById = async (tripId, transactionContext) => {
   const sql = /* SQL */ `
     SELECT t.*, to_json(c.*) city
     FROM trips t
-    JOIN cities c ON c.id = t.id
+    JOIN cities c ON c.id = t.city_id
     WHERE t.id = $[tripId]
   `
 

@@ -1,6 +1,7 @@
 const queries = require("./queries")
 const testUtils = require("../test/testUtils")
 const { dbClient } = require("./dbClient")
+const config = require("./config")
 
 describe("Helper queries.js", () => {
   afterAll(async () => {
@@ -90,12 +91,13 @@ describe("Helper queries.js", () => {
       expect(newTripId).toBeGreaterThan(0)
 
       const responseGetTrip = await queries.getTripById(newTripId, transaction)
+      console.log("🚀 ~ awaitdbClient.tx ~ responseGetTrip:", responseGetTrip)
 
       expect(responseGetTrip.success).toBe(true)
 
       expect(responseGetTrip.data.title).toBe(cityCreationDto.title)
       expect(responseGetTrip.data.destinations[0].name).toBe(
-        cityCreationDto.destinations[0]
+        cityCreationDto.destinations[0].name
       )
 
       await queries.rollbackTransaction(transaction)
@@ -177,6 +179,9 @@ describe("Helper queries.js", () => {
         priceRange: 4,
         duration: 3
       }
+
+      console.log("🚀 ~ promises ~ config.IS_TESTING_MODE_ENABLED:", config.IS_TESTING_MODE_ENABLED)
+
 
       await queries.addTrip(cityCreationDto)
 
