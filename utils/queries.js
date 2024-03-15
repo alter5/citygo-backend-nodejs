@@ -63,6 +63,13 @@ const addTrip = async (tripDto, transactionContext) => {
   const client = getClient(transactionContext)
 
   const responseCity = await getCityById(tripDto.city_id)
+  if (responseCity.success === false) {
+    return createErrorResponse(
+      "Error adding trip. City with the following id was not found: " +
+        tripDto.city_id
+    )
+  }
+  
   const cityName = responseCity.data.city_name
 
   try {
