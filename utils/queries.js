@@ -223,7 +223,7 @@ const getGoogleMapsData = async (searchString) => {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": config.GOOGLE_MAPS_KEY,
       "X-Goog-FieldMask":
-        "places.displayName,places.formattedAddress,places.priceLevel,places.photos"
+        "places.displayName,places.formattedAddress,places.location,places.primaryType"
     },
     params: {
       textQuery: searchString
