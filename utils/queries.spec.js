@@ -99,6 +99,15 @@ describe("Helper queries.js", () => {
         cityCreationDto.destinations[0].name
       )
       expect(responseGetTrip.data.destinations[0].imageUrl).not.toBeUndefined()
+      expect(responseGetTrip.data.destinations[0].name).not.toBeUndefined()
+      expect(responseGetTrip.data.destinations[0].location).not.toBeUndefined()
+      expect(responseGetTrip.data.destinations[0].location.lng).not.toBeUndefined()
+      expect(responseGetTrip.data.destinations[0].location.lat).not.toBeUndefined()
+      expect(responseGetTrip.data.destinations[0].address).not.toBeUndefined()
+      // Some destinations may not have a purpose defined
+      // expect(responseGetTrip.data.destinations[0].purpose).not.toBeUndefined()
+      console.log("🚀 ~ awaitdbClient.tx ~ responseGetTrip:", responseGetTrip)
+
 
       await queries.rollbackTransaction(transaction)
     })
@@ -201,8 +210,43 @@ describe("Helper queries.js", () => {
   })
 
   it("should retrieve google maps data for a given search string", async () => {
-    const googleMapsData = await queries.getGoogleMapsData("Times Square, New York City")
-    console.log("🚀 ~ it ~ googleMapsData:", googleMapsData)
-    expect(googleMapsData.data).toBeTruthy()
+    const googleMapsData = await queries.getGoogleMapsData(
+      "Times Square, New York City"
+    )
+
+    expect(googleMapsData.name).toBeTruthy()
+    expect(googleMapsData.location).toBeTruthy()
+    expect(googleMapsData.address).toBeTruthy()
   })
+
+  // it("should add google maps data to trip destinations", async () => {
+  //   const tripDto = await getTestTripDto()
+
+  //   await queries.addGoogleMapsDataToTrip(tripDto, tripDto.cityName)
+
+  //   expect(tripDto.destinations[0].name).toBeTruthy()
+  //   expect(tripDto.destinations[0].location).toBeTruthy()
+  //   expect(tripDto.destinations[0].location.lng).toBeTruthy()
+  //   expect(tripDto.destinations[0].location.lat).toBeTruthy()
+  //   expect(tripDto.destinations[0].address).toBeTruthy()
+  // })
+
+  const getTestTripDto = async () => {
+    const cityName = "Las Vegas"
+    const cityId = (await queries.searchForCities(cityName)).data[0].id
+
+    return {
+      cityName: cityName, // The cityName field is used for testing only
+      city_id: cityId,
+      title: "Trip to Las Vegas",
+      destinations: [
+        "The Strip",
+        "Fremont Street Experience",
+        "Red Rock Canyon"
+      ],
+      description: "Experience the excitement and entertainment of Las Vegas",
+      priceRange: 4,
+      duration: 3
+    }
+  }
 })

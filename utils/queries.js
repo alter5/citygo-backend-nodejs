@@ -78,6 +78,8 @@ const addTrip = async (tripDto, transactionContext) => {
     return createErrorResponse("Error adding trip", error)
   }
 
+  await addGoogleMapsDataToTrip(tripDto, cityName)
+
   const sql = /* SQL */ `
     INSERT INTO trips (city_id, title, destinations, description, price_range, duration)
     VALUES ($[city_id], $[title], $[destinations], $[description], $[price_range], $[duration])
@@ -201,36 +203,68 @@ const getTripById = async (tripId, transactionContext) => {
 }
 
 const addGoogleMapsDataToTrip = async (trip, cityName) => {
-  const searchString = trip + ", " + cityName
-
   const promises = trip.destinations.map(async (destination) => {
-    const googleMapsData = await getGoogleMapsData(destination.name + ", " + cityName)
-    console.log("🚀 ~ promises ~ googleMapsData:", googleMapsData)
+    const googleMapsData = await getGoogleMapsData(
+      destination.name + ", " + cityName
+    )
+
+    return { ...destination, ...googleMapsData }
   })
 
   const result = await Promise.all(promises)
-  return result
+  trip.destinations = result
 }
 
 const getGoogleMapsData = async (searchString) => {
-  const googleMapsPlacesBaseUrl = "https://places.googleapis.com/v1/places:searchText"
+  // Google Maps Places API: https://developers.google.com/maps/documentation/places/web-service/text-search#find-places-one-type
 
-  // TODO: google maps api: https://developers.google.com/maps/documentation/places/web-service/text-search#find-places-one-type
-  // NOTE: PHOTOS URLS ARE INVALID
+  const googleMapsPlacesBaseUrl =
+    "https://places.googleapis.com/v1/places:searchText"
 
-  const response = await axios.post(googleMapsPlacesBaseUrl, {
-    headers: {
-      "Content-Type": "application/json",
-      "X-Goog-Api-Key": config.GOOGLE_MAPS_KEY,
-      "X-Goog-FieldMask":
-        "places.displayName,places.formattedAddress,places.location,places.primaryType"
-    },
-    params: {
-      textQuery: searchString
+  if (false) {
+    const result = {
+      name: searchString,
+      address: "Test Address",
+      location: {
+        lng: 999999,
+        lat: 999999
+      }
     }
-  })
+    return result
+  } else {
+    const response = await axios.post(
+      googleMapsPlacesBaseUrl,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-Api-Key": config.GOOGLE_MAPS_KEY,
+          "X-Goog-FieldMask":
+            "places.displayName,places.formattedAddress,places.location,places.primaryType"
+        },
+        params: {
+          textQuery: searchString
+        }
+      }
+    )
+    console.log("🚀 ~ getGoogleMapsData ~ response.data:", response.data)
 
-  return response.data
+    const googleMapsData = response.data.places[0]
+    console.log("🚀 ~ getGoogleMapsData ~ googleMapsData:", googleMapsData)
+    console.log("🚀 ~ getGoogleMapsData ~ searchstring:", searchString)
+
+    const result = {
+      name: googleMapsData.displayName.text,
+      address: googleMapsData.formattedAddress,
+      location: {
+        lng: googleMapsData.location.longitude,
+        lat: googleMapsData.location.latitude
+      },
+      purpose: googleMapsData.primaryType || "landmark"
+    }
+
+    return result
+  }
 }
 
 const createSuccessfulResponse = (data) => {
@@ -283,5 +317,6 @@ module.exports = {
   rollbackTransaction,
   getTripById,
   getImageWithSearchString,
-  getGoogleMapsData
+  getGoogleMapsData,
+  addGoogleMapsDataToTrip
 }
