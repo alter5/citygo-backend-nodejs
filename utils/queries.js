@@ -169,7 +169,7 @@ const getMostPopularTrips = async (transactionContext) => {
   const sql = /* SQL */ `
       SELECT t.*, to_json(c.*) city
       FROM trips t
-      JOIN cities c ON c.id = t.id
+      JOIN cities c ON c.id = t.city_id
       ORDER BY t.created_at desc
       LIMIT 10
   `
