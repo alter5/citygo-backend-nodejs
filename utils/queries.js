@@ -108,13 +108,11 @@ const addTrip = async (tripDto, transactionContext) => {
 const addImagesToTrip = async (tripDto, cityName) => {
   const promises = tripDto.destinations.map(async (destination) => {
     let imageUrl
-    if (config.IS_TESTING_MODE_ENABLED) {
+    if (config.ARE_API_KEYS_ENABLED) {
+      imageUrl = await getImageWithSearchString(destination + ", " + cityName)
+    } else {
       imageUrl =
         "https://images.unsplash.com/photo-1485470733090-0aae1788d5af?q=80&w=1217&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    } else {
-      imageUrl = await getImageWithSearchString(
-        destination + ", " + cityName
-      )
     }
     return { name: destination, imageUrl }
   })
@@ -221,17 +219,7 @@ const getGoogleMapsData = async (searchString) => {
   const googleMapsPlacesBaseUrl =
     "https://places.googleapis.com/v1/places:searchText"
 
-  if (false) {
-    const result = {
-      name: searchString,
-      address: "Test Address",
-      location: {
-        lng: 999999,
-        lat: 999999
-      }
-    }
-    return result
-  } else {
+  if (config.ARE_API_KEYS_ENABLED === true) {
     const response = await axios.post(
       googleMapsPlacesBaseUrl,
       {},
@@ -260,6 +248,17 @@ const getGoogleMapsData = async (searchString) => {
       purpose: googleMapsData.primaryType || "landmark"
     }
 
+    return result
+  } else {
+    const result = {
+      name: searchString,
+      address: "Test Address",
+      location: {
+        lng: 33,
+        lat: -117
+      },
+      purpose: "landmark"
+    }
     return result
   }
 }

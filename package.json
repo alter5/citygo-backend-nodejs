@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon -L index.js",
+    "dev_no_api": "npm run dev ARE_API_KEYS_ENABLED=false",
     "create_database": "node .\\scripts\\main.js",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test ARE_API_KEYS_ENABLED=false jest"
   },
   "author": "",
   "license": "ISC",
