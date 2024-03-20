@@ -113,7 +113,7 @@ const addImagesToTrip = async (tripDto, cityName) => {
         "https://images.unsplash.com/photo-1485470733090-0aae1788d5af?q=80&w=1217&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     } else {
       imageUrl = await getImageWithSearchString(
-        destination.name + ", " + cityName
+        destination + ", " + cityName
       )
     }
     return { name: destination, imageUrl }
