@@ -247,11 +247,8 @@ const getGoogleMapsData = async (searchString) => {
         }
       }
     )
-    console.log("🚀 ~ getGoogleMapsData ~ response.data:", response.data)
 
     const googleMapsData = response.data.places[0]
-    console.log("🚀 ~ getGoogleMapsData ~ googleMapsData:", googleMapsData)
-    console.log("🚀 ~ getGoogleMapsData ~ searchstring:", searchString)
 
     const result = {
       name: googleMapsData.displayName.text,

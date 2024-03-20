@@ -104,10 +104,7 @@ describe("Helper queries.js", () => {
       expect(responseGetTrip.data.destinations[0].location.lng).not.toBeUndefined()
       expect(responseGetTrip.data.destinations[0].location.lat).not.toBeUndefined()
       expect(responseGetTrip.data.destinations[0].address).not.toBeUndefined()
-      // Some destinations may not have a purpose defined
-      // expect(responseGetTrip.data.destinations[0].purpose).not.toBeUndefined()
-      console.log("🚀 ~ awaitdbClient.tx ~ responseGetTrip:", responseGetTrip)
-
+      expect(responseGetTrip.data.destinations[0].purpose).not.toBeUndefined()
 
       await queries.rollbackTransaction(transaction)
     })
