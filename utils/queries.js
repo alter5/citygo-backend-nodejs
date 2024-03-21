@@ -238,6 +238,10 @@ const getGoogleMapsData = async (searchString) => {
 
     const googleMapsData = response.data.places[0]
 
+    const purpose = googleMapsData.primaryType || "Landmark"
+    let formattedPurpose = purpose.replaceAll("_", " ")
+    formattedPurpose = convertToTitleCase(formattedPurpose)
+
     const result = {
       name: googleMapsData.displayName.text,
       address: googleMapsData.formattedAddress,
@@ -245,7 +249,7 @@ const getGoogleMapsData = async (searchString) => {
         lng: googleMapsData.location.longitude,
         lat: googleMapsData.location.latitude
       },
-      purpose: googleMapsData.primaryType || "landmark"
+      purpose: formattedPurpose
     }
 
     return result
@@ -261,6 +265,15 @@ const getGoogleMapsData = async (searchString) => {
     }
     return result
   }
+}
+
+const convertToTitleCase = (text) => {
+  if (text === null || text === "") return false
+  else text = text.toString()
+
+  return text.replace(/\w\S*/g, (text) => {
+    return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase()
+  })
 }
 
 const createSuccessfulResponse = (data) => {

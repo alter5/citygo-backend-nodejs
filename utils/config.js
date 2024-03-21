@@ -42,7 +42,7 @@ const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY
 const GOOGLE_MAPS_KEY = process.env.GOOGLE_MAPS_KEY
 
 const ARE_API_KEYS_ENABLED =
-  process.env.ARE_API_KEYS_ENABLED !== null
+  process.env.ARE_API_KEYS_ENABLED !== undefined
     ? process.env.ARE_API_KEYS_ENABLED
     : true
 
