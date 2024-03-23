@@ -1,4 +1,20 @@
+<div align="center">
+  <img src="https://github.com/alter5/city-go/assets/36527069/6a3e2d75-04c8-4f7e-8be5-f78724bb53d6" alt="CityGo Logo" width="250">
+</div>
+
+# Introduction
+CityGo allows users to find vacation routes for any city. It is integrated with Google Maps to allow users to navigate the trip on their device.
+
+### Tech Stack:
+* The back-end uses Node.js and PostgreSQL for storing the trips
+  * For connecting to the database, the pg-promise package is used
+* To view the front-end of this application, see this [repo](https://github.com/alter5/citygo-frontend-angular "CityGo frontend repo"). 
+
+# Setup
 First, get a copy of the .env file
+* This file contains environment variables, including API keys for Google Maps and Unsplashed
+* These variables are accessible from the config.js module for application-wide use
+
 Then, install nvm and run the command "nvm install" and then "nvm use"
 Then, install all packages with "npm i"
 
