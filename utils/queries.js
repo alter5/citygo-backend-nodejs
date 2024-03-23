@@ -261,7 +261,7 @@ const getGoogleMapsData = async (searchString) => {
         lng: 33,
         lat: -117
       },
-      purpose: "landmark"
+      purpose: "Historical Landmark"
     }
     return result
   }
