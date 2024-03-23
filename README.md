@@ -38,5 +38,5 @@ Finally, start the server by running
 Unit testing is done using Jest.
 
 In Jest, test suites run on their own threads
-* A new connection pool is created for each thread containing a max of 3 connections
+* A new connection pool is created for each test suite containing a max of 3 connections
 * Each test case runs in a transaction which is then rolled back once completed to prevent interfering with other test cases
