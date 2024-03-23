@@ -36,8 +36,10 @@ Finally, start the server by running
 
 # Unit Testing
 Unit testing is done using Jest
+### Testing the Endpoints
+The Supertest package is used to simulate calls to back-end endpoints
 
-## Testing the Database
+### Testing the Database
 In Jest, test suites run on their own threads
 * A new connection pool is created for each test suite containing a max of 3 connections
 * Each test case is executed using a db transaction, which is then rolled back to prevent interfering with other test cases
