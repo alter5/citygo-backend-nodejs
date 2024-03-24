@@ -43,7 +43,7 @@ The Supertest package is used to simulate requests to back-end endpoints
 In Jest, test suites run on their own threads
 * A new connection pool is created for each test suite containing a max of 3 connections
 * Each test case is executed using a db transaction, which is then rolled back to prevent interfering with other test cases
-  * If a db query fails, the transaction is rolled back automatically in pg-promise
+  * Also if any query fails, the transaction is rolled back automatically in pg-promise
   * For example:
     ```javascript
     it("should return an error when unsuccessfully inserting a trip", async () => {
