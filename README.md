@@ -37,6 +37,7 @@ Finally, start the server by running
 # Database Setup
 ### Database creation
 The pg-promise library is used for sending database queries.
+
 The Cities and Trips tables are created as follows:
 ```sql
 CREATE TABLE cities(
