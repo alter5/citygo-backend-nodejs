@@ -39,7 +39,7 @@ Unit tests are written using Jest
 
 ### Testing Queries
 In Jest, each test suite runs on a separate thread
-* A new connection pool is created for each test suite, and contain a max of 3 connections
+* A new connection pool is created for each test suite, and contain a max of 3 connections each
 * Each test case is executed using a db transaction, which is then rolled back to prevent interfering with other test cases
   * Also if any query fails, the transaction is rolled back automatically in pg-promise
   * For example:
