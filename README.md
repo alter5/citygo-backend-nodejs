@@ -35,11 +35,11 @@ Finally, start the server by running
   npm run dev
 
 # Unit Testing
-Unit testing is done using Jest
+Unit tests are written using Jest
 
 ### Testing Queries
 In Jest, test suites run on their own threads
-* A new connection pool is created for each test suite containing a max of 3 connections
+* A new connection pool is created for each test suite, and contain a max of 3 connections
 * Each test case is executed using a db transaction, which is then rolled back to prevent interfering with other test cases
   * Also if any query fails, the transaction is rolled back automatically in pg-promise
   * For example:
