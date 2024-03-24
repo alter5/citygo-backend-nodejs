@@ -37,7 +37,7 @@ Finally, start the server by running
 # Unit Testing
 Unit testing is done using Jest
 ### Testing the Endpoints
-The Supertest package is used to simulate calls to back-end endpoints
+The Supertest package is used to simulate requests to back-end endpoints
 
 ### Testing the Database
 In Jest, test suites run on their own threads
