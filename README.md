@@ -63,7 +63,7 @@ CREATE TABLE trips(
 
 ### Loading the Cities table
   
-A .csv file containing every US city is loaded into the cities table (retrieved from Data.gov)
+A .csv file containing every US city is loaded into the cities table. The file was retrieved from Data.gov.
 ```csv
 city_name,state,population,latitude,longitude
 Marysville,Washington,63269,48.0517637,-122.1770818
