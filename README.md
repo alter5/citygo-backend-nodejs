@@ -72,8 +72,7 @@ Cleveland,Ohio,OH,390113,41.499320000000004,-81.6943605
 ```
 
 ### Creating a Trip
-The backend receives a trip creation DTO, containing all of the relevant trip fields, including title, destinations, and city_id
-The destinations are parsed, adding its location from Google Maps, and image from Unsplashed
+The backend receives a trip creation DTO, which contains all of the relevant trip fields, including title, destinations, and city_id. The destinations are parsed, adding its location from Google Maps, and image from Unsplashed.
 
 # Unit Testing
 Unit tests are written using Jest
