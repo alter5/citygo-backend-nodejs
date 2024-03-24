@@ -63,7 +63,7 @@ In Jest, each test suite runs on a separate thread
     })
 
 ### Testing the Endpoints
-The Supertest package is used to simulate requests to back-end endpoints, and receive their response
+The Supertest package is used to simulate requests to back-end endpoints, and receive their responses
 * For example:
     ```javascript
     const request = require("supertest")
