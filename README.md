@@ -13,28 +13,34 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
 
 
 # Setup
-First, get a copy of the .env file
-* This file contains environment variables, including the Google Maps and Unsplashed API keys
-* These variables are accessible from the config.js module for application-wide use
+### Env file
+  * First, get a copy of the .env file
+    * This file contains environment variables, including the Google Maps and Unsplashed API keys
+    * These variables are accessible from the config.js module for application-wide use
 
-Then, install nvm and run the command "nvm install" and then "nvm use"
-Then, install all packages with "npm i"
+### Install Node
+  * Install nvm and run the command "nvm install", and then "nvm use"
+  * Then, install all packages with "npm i"
 
-Install PostgreSQL with "sudo apt update" and then "sudo apt install postgresql postgresql-contrib"
-Start the server with "sudo service postgresql start"
-Then, enter the psql shell with "sudo -u postgres psql" 
-Set a db password: "postgres=# \password"
+### Setting up PostgreSQL
+  * Install PostgreSQL with "sudo apt update" and then "sudo apt install postgresql postgresql-contrib"
+  * Start the server with "sudo service postgresql start"
+  * Then, enter the psql shell with "sudo -u postgres psql" 
+  * Set a db password: "postgres=# \password"
 
+### Managing the database
 Once PostgreSQL is installed, use the following commands to manage the db:
-  sudo service postgresql status for checking the status of your database.
-  sudo service postgresql start to start running your database.
-  sudo service postgresql stop to stop running your database.
+  * sudo service postgresql status for checking the status of your database.
+  * sudo service postgresql start to start running your database.
+  * sudo service postgresql stop to stop running your database.
 
+### Initializing the database
 Initalize the database by running the following script:
-  npm run create_database
+  * npm run create_database
 
+### Start server
 Finally, start the server by running
-  npm run dev
+  * npm run dev
 
 
 
