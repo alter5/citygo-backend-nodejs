@@ -35,13 +35,15 @@ Finally, start the server by running
   npm run dev
 
 # Database Setup
-A .csv file containing gevery US file from Data.gov is parsed and stored into the database
-```csv
-city_name,state,population,latitude,longitude
-Marysville,Washington,63269,48.0517637,-122.1770818
-Perris,California,CA,72326,33.7825194,-117.22864779999999
-Cleveland,Ohio,OH,390113,41.499320000000004,-81.6943605
-```
+### Loading the Cities table
+  
+  * A .csv file containing every US city is loaded into the cities table (retrieved from Data.gov)
+  ```csv
+  city_name,state,population,latitude,longitude
+  Marysville,Washington,63269,48.0517637,-122.1770818
+  Perris,California,CA,72326,33.7825194,-117.22864779999999
+  Cleveland,Ohio,OH,390113,41.499320000000004,-81.6943605
+  ```
 
 # Unit Testing
 Unit tests are written using Jest
