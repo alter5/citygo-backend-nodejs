@@ -35,6 +35,31 @@ Finally, start the server by running
   npm run dev
 
 # Database Setup
+### Database creation
+The pg-promise library allows to send database queries as follows:
+The Cities and Trips tables are created as follows:
+```sql
+CREATE TABLE cities(
+  id serial primary key,
+  city_name varchar(50),
+  state varchar(50),
+  population integer,
+  latitude numeric(10, 6),
+  longitude numeric(10, 6)
+);
+
+CREATE TABLE trips(
+  id serial primary key,
+  city_id int not null REFERENCES cities(id),
+  title varchar(255) not null,
+  destinations jsonb,
+  description text,
+  price_range int,
+  duration int,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+```
+
 ### Loading the Cities table
   
   * A .csv file containing every US city is loaded into the cities table (retrieved from Data.gov)
