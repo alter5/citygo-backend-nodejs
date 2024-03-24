@@ -87,4 +87,3 @@ The Supertest package is used to simulate requests to back-end endpoints
         expect(response.body.data[0].title).toEqual("Short trip in Manchester")
       })
     ```
-    ```
