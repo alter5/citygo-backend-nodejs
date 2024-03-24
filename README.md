@@ -10,6 +10,8 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
   * The pg-promise library is used for database connectivity
 * To view the front-end of this application, see this [repo](https://github.com/alter5/citygo-frontend-angular "CityGo frontend repo"). 
 
+
+
 # Setup
 First, get a copy of the .env file
 * This file contains environment variables, including the Google Maps and Unsplashed API keys
@@ -33,6 +35,8 @@ Initalize the database by running the following script:
 
 Finally, start the server by running
   npm run dev
+
+
 
 # Database Setup
 ### Database creation
@@ -71,8 +75,14 @@ Perris,California,CA,72326,33.7825194,-117.22864779999999
 Cleveland,Ohio,OH,390113,41.499320000000004,-81.6943605
 ```
 
+
+
+# Usage
+
 ### Creating a Trip
 The backend receives a trip creation DTO, which contains all of the relevant trip fields, including title, destinations, and city_id. The destinations are parsed, adding its location from Google Maps, and image from Unsplashed.
+
+
 
 # Unit Testing
 Unit tests are written using Jest
