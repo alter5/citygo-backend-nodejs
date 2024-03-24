@@ -63,12 +63,12 @@ CREATE TABLE trips(
 ### Loading the Cities table
   
 A .csv file containing every US city is loaded into the cities table (retrieved from Data.gov)
-    ```csv
-    city_name,state,population,latitude,longitude
-    Marysville,Washington,63269,48.0517637,-122.1770818
-    Perris,California,CA,72326,33.7825194,-117.22864779999999
-    Cleveland,Ohio,OH,390113,41.499320000000004,-81.6943605
-    ```
+```csv
+city_name,state,population,latitude,longitude
+Marysville,Washington,63269,48.0517637,-122.1770818
+Perris,California,CA,72326,33.7825194,-117.22864779999999
+Cleveland,Ohio,OH,390113,41.499320000000004,-81.6943605
+```
 
 ### Creating a Trip
 The backend receives a trip creation DTO, containing all of the relevant trip fields, including title, destinations, and city_id
