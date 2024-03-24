@@ -44,7 +44,9 @@ The Supertest package is used to simulate requests to back-end endpoints
     const app = require("../app")
     
     jest.mock("../utils/queries")
+
     ...
+
       it("should retrieve all trips for a city", async () => {
         const mockResponse = {
           success: true,
@@ -52,13 +54,10 @@ The Supertest package is used to simulate requests to back-end endpoints
         }
     
         queries.getTripsByCityId.mockResolvedValueOnce(mockResponse)
-    
         const city_id = 999
-    
+
         const response = await request(app).get(url + "/getTripsByCity/" + city_id)
-    
-        ...
-    
+
         expect(response.body.data[0].title).toEqual("Short trip in Manchester")
       })
     ```
