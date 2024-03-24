@@ -42,14 +42,51 @@ Initalize the database by running the following script:
 Finally, start the server by running
   * npm run dev
 
-
-
-
 # Usage
 
-### Creating a Trip
-The backend receives a trip creation DTO, which contains all of the relevant trip fields, including title, destinations, and city_id. The destinations are parsed, adding its location from Google Maps, and image from Unsplashed.
+### Cities Endpoints
 
+- **Search for Cities**
+   - Endpoint: `/cities/search`
+   - Method: `GET`
+   - Parameters: `queryString` (query parameter)
+   - Description: Searches for cities based on the provided query string.
+
+- **Get Most Populous Cities**
+   - Endpoint: `/cities/mostPopulous`
+   - Method: `GET`
+   - Description: Retrieves the most populous cities.
+
+- **Get City by ID**
+   - Endpoint: `/cities/getCityById/:cityId`
+   - Method: `GET`
+   - Parameters: `cityId` (path parameter)
+   - Description: Retrieves a city by its ID.
+
+### Trips Endpoints
+
+- **Get Trip by ID**
+   - Endpoint: `/trips/getTripById/:tripId`
+   - Method: `GET`
+   - Parameters: `tripId` (path parameter)
+   - Description: Retrieves a trip by its ID.
+
+- **Get Trips by City ID**
+   - Endpoint: `/trips/getTripsByCity/:cityId`
+   - Method: `GET`
+   - Parameters: `cityId` (path parameter)
+   - Description: Retrieves trips by a city's ID.
+
+- **Create a Trip**
+   - Endpoint: `/trips/createTrip`
+   - Method: `POST`
+   - Parameters: `tripDto` (request body)
+   - Description: Creates a trip with the provided trip DTO.
+
+- **Get Popular Trips**
+   - Endpoint: `/trips/popularTrips`
+   - Method: `GET`
+   - Description: Retrieves the most popular trips.
 
 
 
