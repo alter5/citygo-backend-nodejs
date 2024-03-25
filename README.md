@@ -91,7 +91,7 @@ Finally, start the server by running
 ### Database creation
 The pg-promise library is used as an interface for the PostgreSQL database. It allows for connecting to the database and creating queries.
 
-The Cities and Trips tables are created as follows:
+The Cities and Trips tables are defined as follows:
 ```sql
 CREATE TABLE cities(
   id serial primary key,
@@ -113,21 +113,25 @@ CREATE TABLE trips(
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
+Creating the tables using pg-promise
 ```javascript
-  const pgPromise = require("pg-promise")
-  ...
-  let dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
+const pgPromise = require("pg-promise")
 
-  // Configure DB connection
-  const pgp = pgPromise({})
-  let dbClient = pgp(dbConfig)
+...
 
-  // Create table cities
-  await dbClient.none(getQueryFromFile("createTableCities"))
-  await insertCitiesIntoCitiesTable(dbClient)
+let dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
 
-  // Create table trips
-  await dbClient.none(getQueryFromFile("createTableTrips"))
+// Configure DB connection
+const pgp = pgPromise({})
+let dbClient = pgp(dbConfig)
+
+// Create table cities
+await dbClient.none(getQueryFromFile("createTableCities"))
+await insertCitiesIntoCitiesTable(dbClient)
+
+// Create table trips
+await dbClient.none(getQueryFromFile("createTableTrips"))
 ```
 
 ### Loading the Cities table
