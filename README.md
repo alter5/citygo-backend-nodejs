@@ -17,7 +17,7 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
 - **Search for Cities**
    - Endpoint: `/cities/search`
    - Method: `GET`
-   - Parameters: `queryString` (query parameter)
+   - Parameters: `queryString` (URL parameter)
    - Description: Searches for cities based on the provided query string.
 
 - **Get Most Populous Cities**
