@@ -10,7 +10,7 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
   * The pg-promise library is used for database connectivity
 * To view the front-end of this application, see this [repo](https://github.com/alter5/citygo-frontend-angular "CityGo frontend repo"). 
 
-# Usage
+# API Reference
 
 ### Cities Endpoints
 
