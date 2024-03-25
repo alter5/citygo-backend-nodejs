@@ -114,7 +114,7 @@ CREATE TABLE trips(
 );
 ```
 
-Creating the tables using pg-promise
+The tables are then created using pg-promise:
 ```javascript
 const pgPromise = require("pg-promise")
 
