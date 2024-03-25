@@ -28,7 +28,7 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
 - **Get City by ID**
    - Endpoint: `/cities/getCityById/:cityId`
    - Method: `GET`
-   - Parameters: `cityId` (path parameter)
+   - Parameters: `cityId`
    - Description: Retrieves a city by its ID.
 
 ### Trips Endpoints
@@ -36,13 +36,13 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
 - **Get Trip by ID**
    - Endpoint: `/trips/getTripById/:tripId`
    - Method: `GET`
-   - Parameters: `tripId` (path parameter)
+   - Parameters: `tripId`
    - Description: Retrieves a trip by its ID.
 
 - **Get Trips by City ID**
    - Endpoint: `/trips/getTripsByCity/:cityId`
    - Method: `GET`
-   - Parameters: `cityId` (path parameter)
+   - Parameters: `cityId`
    - Description: Retrieves trips by a city's ID.
 
 - **Create a Trip**
