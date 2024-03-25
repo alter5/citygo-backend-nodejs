@@ -67,7 +67,7 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
   * Install nvm and run the command "nvm install", and then "nvm use"
   * Then, install all packages with "npm i"
 
-### Setting up PostgreSQL
+### Install PostgreSQL
   * Install PostgreSQL with "sudo apt update" and then "sudo apt install postgresql postgresql-contrib"
   * Start the server with "sudo service postgresql start"
   * Then, enter the psql shell with "sudo -u postgres psql" 
