@@ -87,7 +87,7 @@ Finally, start the server by running
 
 
 
-# Database Setup
+# Implementation
 ### Database creation
 The pg-promise library is used as an interface for the PostgreSQL database. It allows for connecting to the database and creating queries.
 
