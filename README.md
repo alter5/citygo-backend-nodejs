@@ -91,7 +91,7 @@ Finally, start the server by running
 
 # Database Setup
 ### Database creation
-The pg-promise library is used for sending database queries.
+The pg-promise library is used as an interface for the PostgreSQL database. It allows for connecting to the database and creating queries.
 
 The Cities and Trips tables are created as follows:
 ```sql
