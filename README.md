@@ -58,7 +58,7 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
 
 
 # Setup
-### Env file
+### Environment variables
   * First, get a copy of the .env file
     * This file contains environment variables, including the Google Maps and Unsplashed API keys
     * These variables are accessible from the config.js module for application-wide use
