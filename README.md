@@ -72,12 +72,10 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
   * Start the server with "sudo service postgresql start"
   * Then, enter the psql shell with "sudo -u postgres psql" 
   * Set a db password: "postgres=# \password"
-
-### Managing the database
-Once PostgreSQL is installed, use the following commands to manage the db:
-  * sudo service postgresql status for checking the status of your database.
-  * sudo service postgresql start to start running your database.
-  * sudo service postgresql stop to stop running your database.
+  * Once PostgreSQL is installed, use the following commands to manage the db:
+    * sudo service postgresql status for checking the status of your database.
+    * sudo service postgresql start to start running your database.
+    * sudo service postgresql stop to stop running your database.
 
 ### Initializing the database
 Initalize the database by running the following script:
