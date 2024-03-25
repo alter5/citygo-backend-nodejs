@@ -113,6 +113,22 @@ CREATE TABLE trips(
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 ```
+```javascript
+  const pgPromise = require("pg-promise")
+  ...
+  let dbConfig = { ...config.DATABASE_CONFIG, database: "postgres" }
+
+  // Configure DB connection
+  const pgp = pgPromise({})
+  let dbClient = pgp(dbConfig)
+
+  // Create table cities
+  await dbClient.none(getQueryFromFile("createTableCities"))
+  await insertCitiesIntoCitiesTable(dbClient)
+
+  // Create table trips
+  await dbClient.none(getQueryFromFile("createTableTrips"))
+```
 
 ### Loading the Cities table
   
