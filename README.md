@@ -10,7 +10,7 @@ CityGo allows users to find vacation routes for any city. It is integrated with 
   * The pg-promise library is used for database connectivity
 * To view the frontend of this application, see this [repo](https://github.com/alter5/citygo-frontend-angular "CityGo frontend repo").
 * APIs used:
-    * Google Places: to retrieve place data using search strings. Includes info such as address, rating, and purpose
+    * Google Places: to retrieve place data using search strings. Includes info such as address, rating, and purpose.
     * Unsplashed: for retrieving images of places 
 
 # API Reference
